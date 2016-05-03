@@ -1,0 +1,26 @@
+{% extends "locker_manager/base.html" %}
+
+{% block content %}
+<!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        Users
+        <small>Preview</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Forms</a></li>
+        <li class="active">General Elements</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+
+	{% for  user in users%}
+		<h3>{{user.name}}</h3>
+	    <h4><b>Matricula:</b>{{ user.matr }}</h4>
+	    <h4><b>Curso:</b>{{ user.course }}</h4>
+
+	{% endfor %}
+
+	{% endblock content %}
