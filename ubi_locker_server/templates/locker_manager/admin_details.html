@@ -1,0 +1,24 @@
+{% extends "locker_manager/base.html" %}
+
+{% block content %}
+<!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        User Details
+        <small>Preview</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Forms</a></li>
+        <li class="active">General Elements</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+		<h3>{{ admin.user.first_name }}</h3>
+	    <h4><b>Matricula:</b>{{ admin.matriculation }}</h4>
+
+      <li><a href={% url 'locker_manager.views.edit_admin' pk=admin.pk %}> Edit</a></li>
+      <li><a href={% url 'locker_manager.views.remove_admin' pk=admin.pk %}> Remove</a></li>
+
+	{% endblock content %}

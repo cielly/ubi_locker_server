@@ -21,11 +21,15 @@ from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
-    url(r'^$', 'locker_manager.views.user_list'),
-    url(r'^user/register/$', 'locker_manager.views.register_user', name="register_user"),
-    url(r'^user/(?P<pk>[\w|\W]+)/details/$', 'locker_manager.views.user_details', name="user_details"),
-    url(r'^user/(?P<pk>[\w|\W]+)/edit/$', 'locker_manager.views.edit_user', name="edit_user"),
-    url(r'^user/(?P<pk>[\w|\W]+)/remove/$', 'locker_manager.views.remove_user', name="remove_user"),
+    url(r'^$', 'locker_manager.views.admin_list'),
+    url(r'^admin/register/$', 'locker_manager.views.register_admin', name="register_admin"),
+    url(r'^access/register/$', 'locker_manager.views.register_access', name="register_access"),
+    url(r'^admin/(?P<pk>[\w|\W]+)/details/$', 'locker_manager.views.admin_details', name="admin_details"),
+    url(r'^access/(?P<pk>[\w|\W]+)/details/$', 'locker_manager.views.access_details', name="access_details"),
+    url(r'^admin/(?P<pk>[\w|\W]+)/edit/$', 'locker_manager.views.edit_admin', name="edit_admin"),
+    url(r'^access/(?P<pk>[\w|\W]+)/edit/$', 'locker_manager.views.edit_access', name="edit_access"),
+    url(r'^admin/(?P<pk>[\w|\W]+)/remove/$', 'locker_manager.views.remove_admin', name="remove_admin"),
+    url(r'^access/(?P<pk>[\w|\W]+)/remove/$', 'locker_manager.views.remove_access', name="remove_access"),
 ]
 
 urlpatterns += staticfiles_urlpatterns() # Add to make static files work!

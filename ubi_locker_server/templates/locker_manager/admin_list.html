@@ -4,7 +4,7 @@
 <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        User Details
+        Users
         <small>Preview</small>
       </h1>
       <ol class="breadcrumb">
@@ -15,11 +15,11 @@
     </section>
 
     <!-- Main content -->
-		<h3>{{user.name}}</h3>
-	    <h4><b>Matricula:</b>{{ user.matr }}</h4>
-	    <h4><b>Curso:</b>{{ user.course }}</h4>
 
-      <li><a href={% url 'locker_manager.views.edit_user' pk=user.pk %}> Edit</a></li>
-      <li><a href={% url 'locker_manager.views.remove_user' pk=user.pk %}> Remove</a></li>
+	{% for  admin in admins %}
+		<h3>{{admin.user.first_name}}</h3>
+	    <h4><b>Matricula:</b>{{ admin.matriculation }}</h4>
+
+	{% endfor %}
 
 	{% endblock content %}

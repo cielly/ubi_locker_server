@@ -11,11 +11,11 @@ class Person(models.Model):
 
 
 class Admin(Person):
-	user = models.OneToOneField(User, on_delete=models.CASCADE)
-
+	user = models.OneToOneField(User, on_delete=models.CASCADE, default=None, blank=True)
 
 class Locker(models.Model):
 	locker_id = models.CharField(max_length=50)
+	room = models.CharField(max_length=200, default="")
 
 class Access(models.Model):
 	person = models.ForeignKey('Person', on_delete=models.CASCADE)

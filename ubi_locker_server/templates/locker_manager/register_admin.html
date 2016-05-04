@@ -1,0 +1,125 @@
+{% extends "locker_manager/base.html" %}
+{% load widget_tweaks %}
+
+{% block header %}
+
+ {% if messages %}
+        {% for message in messages %}
+            alert(message);
+        {% endfor %}
+    {% endif %}
+
+{% endblock header %}
+
+{% block content %}
+
+<!-- Content Header (Page header) -->
+    <section class="content-header">
+      <h1>
+        General Form Elements
+        <small>Preview</small>
+      </h1>
+      <ol class="breadcrumb">
+        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+        <li><a href="#">Forms</a></li>
+        <li class="active">General Elements</li>
+      </ol>
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="row">
+        <!-- left column -->
+        <div class="col-md-6">
+          <!-- general form elements -->
+          <div class="box box-primary">
+            <div class="box-header with-border">
+              <h3 class="box-title">Quick Example</h3>
+            </div>
+            <!-- /.box-header -->
+            <!-- form start -->
+            <form action="" method="POST" role="form" class="form-horizontal">
+              <div class="box-body">
+              {% csrf_token %}
+              <div class="form-group">
+                  <label for="fname">Primeiro Nome</label>
+                  {% render_field user_form.first_name class="form-control" id="fname" placeholder="Digite seu primeiro nome" %}
+                </div>
+
+                <div class="form-group">
+                  <label for="lname">Ultimo Nome</label>
+                  {% render_field user_form.last_name class="form-control" id="lname" placeholder="Digite seu ultimo nome" %}
+                </div>
+
+                <div class="form-group">
+                  <label for="matr">Matrícula</label>
+                  {% render_field admin_form.matriculation class="form-control" id="matr" placeholder="Digite sua matrícula" %}
+                </div>
+
+                <div class="form-group">
+                  <label for="email">Endereço de email</label>
+                   {% render_field user_form.email class="form-control" id='email' placeholder="Digite seu email" %}
+                </div>
+
+                <div class="form-group">
+                  <label for="username">Nome de usuário</label>
+                   {% render_field user_form.username class="form-control" id='username' placeholder="Digite seu username" %}
+                </div>
+
+                <div class="form-group">
+                  <label for="pass">Senha</label>
+                  {% render_field user_form.password class="form-control" type="password" id="pass" placeholder="Digite sua senha" %}
+                </div>  
+             </div>        
+            <!-- /.box-body -->
+
+              <div class="box-footer">
+                <button type="submit" class="btn btn-primary" value="Submit">Submit</button>
+              </div>
+            </form> 
+          
+          <!-- /.box -->
+
+          {% if admin_form.errors %}
+            {% for field in admin_form %}
+                {% for error in field.errors %}
+                    <div class="alert alert-error">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% for error in admin_form.non_field_errors %}
+                <div class="alert alert-error">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+         {% if user_form.errors %}
+            {% for field in user_form %}
+                {% for error in field.errors %}
+                    <div class="alert alert-error">
+                        <strong>{{ error|escape }}</strong>
+                    </div>
+                {% endfor %}
+            {% endfor %}
+            {% for error in user_form.non_field_errors %}
+                <div class="alert alert-error">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        </div>
+
+          </div>
+        <!--/.col (right) -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
+  </div>
+  <!-- /.content-wrapper -->
+
+{% endblock content %}
+
