@@ -39,6 +39,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'locker_manager',
     'widget_tweaks',  # pip install django-widget-tweaks
+    'rest_framework', 
 )
 
 MIDDLEWARE_CLASSES = (
@@ -121,3 +122,11 @@ STATICFILES_FINDERS = (
 DEBUG_TOOLBAR_PATCH_SETTINGS = False
 
 MEDIA_ROOT = BASE_DIR
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}
