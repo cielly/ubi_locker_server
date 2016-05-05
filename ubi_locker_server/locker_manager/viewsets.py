@@ -19,11 +19,11 @@ class PersonViewSet(viewsets.ModelViewSet):
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
     @detail_route(methods=['post'])
-    def set_RFID(self, request, *args, **kwargs):
+    def set_RFID(self, request, **kwargs):
 		person = self.get_object()
-		#rfid = kwargs['rfid']
-		#person.RFID = rfid
-		setattr(person, 'RFID', '999')
+		req_data = request.GET
+		rfid = req_data.get('rfid',"0")  #rfid = self.kwargs['rfid'] -> if rfid' was passed as argument
+		setattr(person, 'RFID', rfid)
 		person.save()
-		content = {'message':'RFID upddated.'}
+		content = {'message':'RFID updated.'}
 		return Response(content, status=status.HTTP_200_OK)

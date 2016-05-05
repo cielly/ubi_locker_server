@@ -37,6 +37,7 @@ class UserViewSet(viewsets.ModelViewSet):
 router = routers.DefaultRouter()
 router.register(r'persons', PersonViewSet)
 router.register(r'users', UserViewSet)
+#router.register(r'persons/(?P<rfid>\d+)', PersonViewSet)
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
