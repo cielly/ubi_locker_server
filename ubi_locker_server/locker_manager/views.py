@@ -122,3 +122,4 @@ def remove_access(request, pk):
 	Access.objects.get(pk=pk).delete()
 	admins = Admin.objects.all()	
 	return render(request, 'locker_manager/admin_list.html', {'admins':admins})
+

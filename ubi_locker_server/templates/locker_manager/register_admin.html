@@ -68,7 +68,12 @@
 
                 <div class="form-group">
                   <label for="pass">Senha</label>
-                  {% render_field user_form.password class="form-control" type="password" id="pass" placeholder="Digite sua senha" %}
+                  {% render_field user_form.password1 class="form-control" type="password" id="pass" placeholder="Digite sua senha" %}
+                </div>  
+
+                <div class="form-group">
+                  <label for="pass">Repita a Senha</label>
+                  {% render_field user_form.password2 class="form-control" type="password" id="pass" placeholder="Digite sua senha" %}
                 </div>  
              </div>        
             <!-- /.box-body -->
