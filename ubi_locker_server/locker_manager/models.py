@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Person(models.Model):
-	matriculation = models.PositiveIntegerField() 			
+	matriculation = models.PositiveIntegerField(primary_key=True) 			
 	locker_password = models.CharField(max_length=50)
 	RFID = models.CharField(max_length=200)
 
