@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from .models import Person
-from .serializers import PersonSerializer
+from .models import Person, Admin
+from .serializers import PersonSerializer, AdminSerializer
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import detail_route, list_route, parser_classes
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
@@ -41,3 +41,12 @@ class PersonViewSet(viewsets.ModelViewSet):
     	person.save()
     	content = {'message':'RFID updated.'}
     	return Response(content, status=status.HTTP_200_OK)
+
+
+class AdminViewSet(viewsets.ModelViewSet):
+    """
+    This viewset automatically provides `list` and `detail` actions.
+    """
+    queryset = Admin.objects.all()
+    serializer_class = AdminSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)

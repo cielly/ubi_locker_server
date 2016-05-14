@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'locker_manager',
     'widget_tweaks',  # pip install django-widget-tweaks
     'rest_framework', 
+    'rest_framework.authtoken'
 )
 
 MIDDLEWARE_CLASSES = (

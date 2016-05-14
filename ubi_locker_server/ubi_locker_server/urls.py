@@ -19,7 +19,8 @@ from django.conf import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
-from locker_manager.viewsets import PersonViewSet
+from locker_manager.viewsets import PersonViewSet, AdminViewSet
+from locker_manager.tokens import TokenViewSet
 #from . import views
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -37,12 +38,16 @@ class UserViewSet(viewsets.ModelViewSet):
 router = routers.DefaultRouter()
 router.register(r'persons', PersonViewSet)
 router.register(r'users', UserViewSet)
+router.register(r'adminp', AdminViewSet)
+router.register(r'token', TokenViewSet)
 #router.register(r'persons/(?P<rfid>\d+)', PersonViewSet)
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^api-token-auth/', 'locker_manager.tokens.obtain_auth_token', name='obtain_auth_token'),
+    
     url(r'^admin/list/$', 'locker_manager.views.admin_list', name="list_admin"),
     url(r'^admin/register/$', 'locker_manager.views.register_admin', name="register_admin"),
     url(r'^access/register/$', 'locker_manager.views.register_access', name="register_access"),
