@@ -34,12 +34,16 @@ class PersonViewSet(viewsets.ModelViewSet):
     def set_RFID_by_locker_pass(self, request, **kwargs):
     	req_data = request.data
     	locker_pass = req_data['locker_pass']
+    	matriculation = req_data['matriculation']
     	rfid = req_data['rfid']  
-    	person = get_object_or_404(Person, locker_password=locker_pass)
-    	setattr(person, 'RFID', rfid)
-    	person.save()
-    	content = {'message':'RFID updated.'}
-    	return Response(content, status=status.HTTP_200_OK)
+    	person = get_object_or_404(Person, matriculation=matriculation)
+	if person.locker_password == locker_pass:
+		setattr(person, 'RFID', rfid)
+	 	person.save()
+		content = {'message':'RFID updated.'}
+		return Response(content, status=status.HTTP_200_OK)		
+	else:
+		return Response("Incorrect locker_pass", status=status.HTTP_400_BAD_REQUEST)
 
 
 class AdminViewSet(viewsets.ModelViewSet):
