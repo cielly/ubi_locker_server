@@ -4,7 +4,6 @@ from .models import Person, Admin
 from .serializers import PersonSerializer, AdminSerializer
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import detail_route, list_route, parser_classes
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 from rest_framework import exceptions
