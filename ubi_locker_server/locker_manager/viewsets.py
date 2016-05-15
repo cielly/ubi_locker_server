@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from .models import Person, Admin
-from .serializers import PersonSerializer, AdminSerializer
+from .models import Person, Admin, Locker
+from .serializers import UserSerializer, PersonSerializer, AdminSerializer, LockerSerializer
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import detail_route, list_route, parser_classes
 from rest_framework.permissions import IsAuthenticated
@@ -10,6 +10,12 @@ from rest_framework import exceptions
 from rest_framework import status
 from rest_framework.response import Response
 from django.shortcuts import render, render_to_response, redirect, get_object_or_404
+from django.contrib.auth.models import User
+
+# ViewSets define the view behavior.
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
 
 class PersonViewSet(viewsets.ModelViewSet):
     """
@@ -53,3 +59,13 @@ class AdminViewSet(viewsets.ModelViewSet):
     queryset = Admin.objects.all()
     serializer_class = AdminSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
+
+
+class LockerViewSet(viewsets.ModelViewSet):
+    """
+    This viewset automatically provides `list` and `detail` actions.
+    """
+    queryset = Locker.objects.all()
+    serializer_class = LockerSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+

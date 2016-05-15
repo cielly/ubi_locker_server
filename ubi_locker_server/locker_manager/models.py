@@ -28,5 +28,5 @@ class Locker(models.Model):
 class Access(models.Model):
 	person = models.ForeignKey('Person', on_delete=models.CASCADE)
 	locker = models.ForeignKey('Locker', on_delete=models.CASCADE)
-	initial_time = models.TimeField()
-	final_time = models.TimeField()
+	initial_time = models.TimeField(help_text="Please use the following format: <em>HH:MM</em>.")
+	final_time = models.TimeField(help_text="Please use the following format: <em>HH:MM</em>.")

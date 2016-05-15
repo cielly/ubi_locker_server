@@ -19,20 +19,9 @@ from django.conf import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
-from locker_manager.viewsets import PersonViewSet, AdminViewSet
+from locker_manager.viewsets import UserViewSet, PersonViewSet, AdminViewSet, LockerViewSet
 from locker_manager.tokens import TokenViewSet
 #from . import views
-
-class UserSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = User
-        fields = ('url', 'username', 'email', 'is_staff', 'password', 'is_active')
-
-# ViewSets define the view behavior.
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
 
 # Routers provide an easy way of automatically determining the URL conf.
 router = routers.DefaultRouter()
@@ -40,6 +29,7 @@ router.register(r'persons', PersonViewSet)
 router.register(r'users', UserViewSet)
 router.register(r'adminp', AdminViewSet)
 router.register(r'token', TokenViewSet)
+router.register(r'locker', LockerViewSet)
 #router.register(r'persons/(?P<rfid>\d+)', PersonViewSet)
 
 urlpatterns = [

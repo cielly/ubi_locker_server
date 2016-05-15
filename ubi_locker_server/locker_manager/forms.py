@@ -46,7 +46,24 @@ class AccessForm(forms.ModelForm):
 
 	class Meta:
 		model = Access
-		fields = ('initial_time', 'final_time')		
+		fields = ('initial_time', 'final_time')
+
+class AccessAditionalForm(forms.Form):
+	def get_matr():
+		CHOICES = []
+		matr = Person.objects.values('matriculation')
+		for key in matr:
+			CHOICES.append( (str(key['matriculation']), key['matriculation']) )
+		return CHOICES
+
+	def get_room():
+		CHOICES = []
+		room = Locker.objects.values('room')
+		for key in room:
+			CHOICES.append( (str(key['room']), str(key['room'])) )
+		return CHOICES	
+
+	room = forms.ChoiceField(choices=get_room)
+	matriculation = forms.ChoiceField(choices=get_matr)
 
 
-     

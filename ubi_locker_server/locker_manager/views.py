@@ -1,7 +1,7 @@
 from django.shortcuts import render, render_to_response, redirect, get_object_or_404
 from django.contrib.auth.models import User
 from .models import Admin, Person, Access, Locker
-from forms import AdminForm, UserForm, PersonForm, LockerForm, AccessForm
+from forms import AdminForm, UserForm, PersonForm, LockerForm, AccessForm, AccessAditionalForm
 from django.contrib import messages
 
 # Create your views here.
@@ -62,28 +62,35 @@ def remove_admin(request, pk):
 	return render(request, 'locker_manager/admin_list.html', {'admins':admins})
 
 def register_access(request):
-	person_form = PersonForm(prefix="prs")
-	locker_form = LockerForm(prefix="lcr")
+	#person_form = PersonForm(prefix="prs")
+	#locker_form = LockerForm(prefix="lcr")
 	access_form = AccessForm(prefix="acs")
+	access_ad_form = AccessAditionalForm(prefix="ad")
 
 	if request.method == 'POST':
-		person_form = PersonForm(request.POST, prefix="prs")
-		locker_form = LockerForm(request.POST, prefix="lcr")
+		#person_form = PersonForm(request.POST, prefix="prs")
+		#locker_form = LockerForm(request.POST, prefix="lcr")
 		access_form = AccessForm(request.POST, prefix="acs")
-		if person_form.is_valid() and locker_form.is_valid() and access_form.is_valid():
-			person = person_form.save()
-			locker = locker_form.save()	
+		access_ad_form = AccessAditionalForm(request.POST, prefix="ad")
+		#if person_form.is_valid() and locker_form.is_valid() and access_form.is_valid():
+		if access_form.is_valid() and access_ad_form.is_valid():
+		
+			#person = person_form.save()
+			#locker = locker_form.save()	
 			access = access_form.save(commit=False)
-			access.person = person
-			access.locker = locker
+			matr = access_ad_form.cleaned_data['matriculation']
+			room = access_ad_form.cleaned_data['room']
+			access.person = get_object_or_404(Person, matriculation=matr)
+			access.locker = get_object_or_404(Locker, room=room)
 			access.save()
 			return redirect('locker_manager.views.access_details', pk=access.pk)
 		else:
 			messages.error(request, "Error")
-			return render(request, 'locker_manager/register_access.html',{'access_form':access_form, 'person_form':person_form, 'locker_form': locker_form})
+			return render(request, 'locker_manager/register_access.html',{'access_form':access_form, 'access_ad_form':access_ad_form})
 
 	else:	
-		return render(request, 'locker_manager/register_access.html',{'access_form':access_form, 'person_form':person_form, 'locker_form': locker_form})
+		messages.error(request, "Error")
+		return render(request, 'locker_manager/register_access.html',{'access_form':access_form, 'access_ad_form':access_ad_form})
 
 
 def edit_access(request, pk):
