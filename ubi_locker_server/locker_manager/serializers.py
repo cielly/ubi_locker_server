@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Person, Admin, Locker
+from .models import Person, Admin, Locker, Access
 from django.contrib.auth.models import User
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -19,3 +19,7 @@ class AdminSerializer(serializers.ModelSerializer):
 class LockerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Locker        
+
+class AccessSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Access

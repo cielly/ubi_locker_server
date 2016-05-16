@@ -1,16 +1,17 @@
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticatedOrReadOnly
-from .models import Person, Admin, Locker
-from .serializers import UserSerializer, PersonSerializer, AdminSerializer, LockerSerializer
+from .models import Person, Admin, Locker, Access
+from .serializers import UserSerializer, PersonSerializer, AdminSerializer, LockerSerializer, AccessSerializer
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import detail_route, list_route, parser_classes
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly, AllowAny
 from rest_framework.views import APIView
 from rest_framework import exceptions
 from rest_framework import status
 from rest_framework.response import Response
 from django.shortcuts import render, render_to_response, redirect, get_object_or_404
 from django.contrib.auth.models import User
+import datetime
+from pytz import timezone   
 
 # ViewSets define the view behavior.
 class UserViewSet(viewsets.ModelViewSet):
@@ -68,4 +69,30 @@ class LockerViewSet(viewsets.ModelViewSet):
     queryset = Locker.objects.all()
     serializer_class = LockerSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
+
+
+class AccessViewSet(viewsets.ModelViewSet):
+    """
+    This viewset automatically provides `list` and `detail` actions.
+    """
+    queryset = Access.objects.all()
+    serializer_class = AccessSerializer
+    permission_classes = (IsAuthenticatedOrReadOnly,)
+
+    @list_route(methods=['get'], url_path='get-access')
+    @parser_classes((JSONParser,))
+    def get_access_by_RFID(self, request, **kwargs):
+        req_data = request.GET
+        rfid = req_data['rfid']  
+        person = get_object_or_404(Person, RFID=rfid)
+        accesses = Access.objects.filter(person_id=person.matriculation)
+        recife = timezone('America/Recife')
+        current_time = datetime.datetime.now(recife).time()
+        for access in accesses:
+            if current_time >= access.initial_time and current_time <= access.final_time:
+                content = {'access':1, 'message':'access granted.'}
+                return Response(content, status=status.HTTP_200_OK)     
+        content = {'access':0, 'message':'access denied.'}
+        return Response(content, status=status.HTTP_200_OK)
+
 

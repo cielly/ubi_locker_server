@@ -19,7 +19,7 @@ from django.conf import settings
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from django.contrib.auth.models import User
 from rest_framework import routers, serializers, viewsets
-from locker_manager.viewsets import UserViewSet, PersonViewSet, AdminViewSet, LockerViewSet
+from locker_manager.viewsets import UserViewSet, PersonViewSet, AdminViewSet, LockerViewSet, AccessViewSet
 from locker_manager.tokens import TokenViewSet
 #from . import views
 
@@ -30,6 +30,7 @@ router.register(r'users', UserViewSet)
 router.register(r'adminp', AdminViewSet)
 router.register(r'token', TokenViewSet)
 router.register(r'locker', LockerViewSet)
+router.register(r'accessp', AccessViewSet)
 #router.register(r'persons/(?P<rfid>\d+)', PersonViewSet)
 
 urlpatterns = [
