@@ -67,3 +67,9 @@ class AccessAditionalForm(forms.Form):
 	matriculation = forms.ChoiceField(choices=get_matr)
 
 
+class LoginForm(forms.Form):
+	
+	username = forms.CharField()
+	password = forms.CharField()
+
+

@@ -1,16 +1,39 @@
 from django.shortcuts import render, render_to_response, redirect, get_object_or_404
+from django.http import HttpResponse
 from django.contrib.auth.models import User
 from .models import Admin, Person, Access, Locker
-from forms import AdminForm, UserForm, PersonForm, LockerForm, AccessForm, AccessAditionalForm
+from forms import AdminForm, UserForm, PersonForm, LockerForm, AccessForm, AccessAditionalForm, LoginForm
 from django.contrib import messages
+from django.contrib.auth import authenticate, login
+from rest_framework.response import Response
+from rest_framework import status
 
 # Create your views here.
 
-def login(request):
+def lm_login(request):
+	login_form = LoginForm(prefix="lg")
+
 	if request.method == 'POST':
-		pass
+		login_form = LoginForm(request.POST, prefix="lg")
+		if login_form.is_valid():
+			username = login_form.cleaned_data['username']
+			password = login_form.cleaned_data['password']
+			user = authenticate(username=username, password=password)
+			if user is not None:
+				if user.is_active:
+					login(request, user)
+					return render(request, 'locker_manager/success.html')
+				else:
+					content = {'user is not active'}
+					return HttpResponse(content, content_type='application/json')
+			else:
+				content = {'user is None'}
+				return HttpResponse(content, content_type='application/json')
+		else:
+			messages.error(request, "Error")
+			return render(request, 'locker_manager/login.html', {'login_form':login_form})
 	else:
-		return render(request, 'locker_manager/login.html')
+		return render(request, 'locker_manager/login.html', {'login_form':login_form})
 
 def admin_list(request):
 	admins = Admin.objects.all()
