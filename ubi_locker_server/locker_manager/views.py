@@ -6,6 +6,12 @@ from django.contrib import messages
 
 # Create your views here.
 
+def login(request):
+	if request.method == 'POST':
+		pass
+	else:
+		return render(request, 'locker_manager/login.html')
+
 def admin_list(request):
 	admins = Admin.objects.all()
 	return render(request, 'locker_manager/admin_list.html', {'admins':admins})
