@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from .models import Admin, Person, Access, Locker
 from forms import AdminForm, UserForm, PersonForm, LockerForm, AccessForm, AccessAditionalForm, LoginForm
 from django.contrib import messages
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from rest_framework.response import Response
 from rest_framework import status
 
@@ -34,6 +34,11 @@ def lm_login(request):
 			return render(request, 'locker_manager/login.html', {'login_form':login_form})
 	else:
 		return render(request, 'locker_manager/login.html', {'login_form':login_form})
+
+
+def lm_logout(request):
+	logout(request)
+	return redirect('login')
 
 def admin_list(request):
 	admins = Admin.objects.all()

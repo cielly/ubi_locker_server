@@ -38,7 +38,8 @@ urlpatterns = [
     url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     
-    url(r'^', 'locker_manager.views.lm_login', name="login"), 
+    url(r'^login/', 'locker_manager.views.lm_login', name="login"),
+    url(r'^logout/', 'locker_manager.views.lm_logout', name="logout"),  
     url(r'^admin/list/$', 'locker_manager.views.admin_list', name="list_admin"),
     url(r'^admin/register/$', 'locker_manager.views.register_admin', name="register_admin"),
     url(r'^access/register/$', 'locker_manager.views.register_access', name="register_access"),

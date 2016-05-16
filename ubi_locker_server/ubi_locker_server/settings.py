@@ -140,3 +140,5 @@ REST_FRAMEWORK = {
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
+
+SESSION_ENGIN = 'django.contrib.sessions.backends.cache'
