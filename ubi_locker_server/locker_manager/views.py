@@ -22,7 +22,7 @@ def lm_login(request):
 			if user is not None:
 				if user.is_active:
 					login(request, user)
-					return render(request, 'locker_manager/success.html')
+					return render(request, 'locker_manager/home.html')
 				else:
 					content = {'user is not active'}
 					return HttpResponse(content, content_type='application/json')
