@@ -79,19 +79,39 @@ class AccessViewSet(viewsets.ModelViewSet):
     serializer_class = AccessSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
-    @list_route(methods=['get'], url_path='get-access')
+    @list_route(methods=['get'], url_path='get-by-rfid')
     @parser_classes((JSONParser,))
     def get_access_by_RFID(self, request, **kwargs):
         req_data = request.GET
-        rfid = req_data['rfid']  
+        rfid = req_data['rfid']
+        locker_id = req_data['locker_id']   
         person = get_object_or_404(Person, RFID=rfid)
         accesses = Access.objects.filter(person_id=person.matriculation)
         recife = timezone('America/Recife')
         current_time = datetime.datetime.now(recife).time()
         for access in accesses:
-            if current_time >= access.initial_time and current_time <= access.final_time:
+            if current_time >= access.initial_time and current_time <= access.final_time and locker_id == access.locker.locker_id:
                 content = {'access':1, 'message':'access granted.'}
                 return Response(content, status=status.HTTP_200_OK)     
+        content = {'access':0, 'message':'access denied.'}
+        return Response(content, status=status.HTTP_200_OK)
+
+    @list_route(methods=['get'], url_path='get-by-pass')
+    @parser_classes((JSONParser,))
+    def get_access_by_Locker_Password(self, request, **kwargs):
+        req_data = request.GET
+        locker_pass = req_data['locker_pass']
+        matr = req_data['matriculation']
+        locker_id = req_data['locker_id']   
+        person = get_object_or_404(Person, matriculation=matr)
+        if person.locker_password == locker_pass:
+            accesses = Access.objects.filter(person_id=person.matriculation)
+            recife = timezone('America/Recife')
+            current_time = datetime.datetime.now(recife).time()
+            for access in accesses:
+                if current_time >= access.initial_time and current_time <= access.final_time and locker_id == access.locker.locker_id:
+                    content = {'access':1, 'message':'access granted.'}
+                    return Response(content, status=status.HTTP_200_OK)     
         content = {'access':0, 'message':'access denied.'}
         return Response(content, status=status.HTTP_200_OK)
 
