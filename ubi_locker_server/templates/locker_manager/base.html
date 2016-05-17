@@ -254,10 +254,9 @@ desired effect
          <li class="active"><a href={% url 'locker_manager.views.register_access' %}><i class="fa fa-link"></i> <span>Cadastrar novo acesso</span></a></li>  
 
         <li class="treeview">
-          <a href="#"><i class="fa fa-link"></i> <span>Multilevel</span> <i class="fa fa-angle-left pull-right"></i></a>
+          <a href="#"><i class="fa fa-link"></i> <span>Acessos</span> <i class="fa fa-angle-left pull-right"></i></a>
           <ul class="treeview-menu">
-            <li><a href="#">Link in level 2</a></li>
-            <li><a href="#">Link in level 2</a></li>
+            <li><a href={% url 'locker_manager.views.consult_access' %}>Consulta</a></li>
           </ul>
         </li>
       </ul>
@@ -282,10 +281,10 @@ desired effect
   <footer class="main-footer">
     <!-- To the right -->
     <div class="pull-right hidden-xs">
-      Anything you want
+      <strong>Copyright &copy; 2016 <a href="#">UbiLocker</a>.</strong> All rights reserved.
     </div>
     <!-- Default to the left -->
-    <strong>Copyright &copy; 2015 <a href="#">Company</a>.</strong> All rights reserved.
+    
   </footer>
 
   <!-- Control Sidebar -->

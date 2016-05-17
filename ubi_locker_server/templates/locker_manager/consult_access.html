@@ -34,18 +34,16 @@
           <!-- general form elements -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">Cadastro</h3>
+              <h3 class="box-title">Consulta</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->
             <form action="" method="POST" role="form" class="form-horizontal">
               <div class="box-body">
               {% csrf_token %}
-
-              {{ access_form.as_p }}    
+ 
               {{ access_ad_form.as_p }}
-             
-                
+       
 
 
             <!-- /.box-body -->
@@ -56,22 +54,6 @@
             </form> 
           
           <!-- /.box -->
-
-          
-         {% if access_form.errors %}
-            {% for field in access_form %}
-                {% for error in field.errors %}
-                    <div class="alert alert-error">
-                        <strong>{{ error|escape }}</strong>
-                    </div>
-                {% endfor %}
-            {% endfor %}
-            {% for error in access_form.non_field_errors %}
-                <div class="alert alert-error">
-                    <strong>{{ error|escape }}</strong>
-                </div>
-            {% endfor %}
-        {% endif %}
 
           {% if access_ad_form.errors %}
             {% for field in access_ad_form %}

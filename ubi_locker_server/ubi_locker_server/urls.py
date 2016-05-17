@@ -50,6 +50,8 @@ urlpatterns = [
     url(r'^access/(?P<pk>[\w|\W]+)/edit/$', 'locker_manager.views.edit_access', name="edit_access"),
     url(r'^admin/(?P<pk>[\w|\W]+)/remove/$', 'locker_manager.views.remove_admin', name="remove_admin"),
     url(r'^access/(?P<pk>[\w|\W]+)/remove/$', 'locker_manager.views.remove_access', name="remove_access"),
+    url(r'^access/consult/$', 'locker_manager.views.consult_access', name="consult-access"),
+    url(r'^access/consult/(?P<matr>[\w|\W]+)/(?P<room>[\w|\W]+)/$', 'locker_manager.views.consult_access_details', name="consult-access-details"),
 ]
 
 urlpatterns += staticfiles_urlpatterns() # Add to make static files work!

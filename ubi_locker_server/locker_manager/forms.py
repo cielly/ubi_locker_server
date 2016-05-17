@@ -54,6 +54,7 @@ class AccessAditionalForm(forms.Form):
 		matr = Person.objects.values('matriculation')
 		for key in matr:
 			CHOICES.append( (str(key['matriculation']), key['matriculation']) )
+		CHOICES.append( ("*", "---") )
 		return CHOICES
 
 	def get_room():
@@ -61,10 +62,11 @@ class AccessAditionalForm(forms.Form):
 		room = Locker.objects.values('room')
 		for key in room:
 			CHOICES.append( (str(key['room']), str(key['room'])) )
+		CHOICES.append( ("*", "---") )
 		return CHOICES	
 
-	room = forms.ChoiceField(choices=get_room)
-	matriculation = forms.ChoiceField(choices=get_matr)
+	room = forms.ChoiceField(choices=get_room, required=False)
+	matriculation = forms.ChoiceField(choices=get_matr, required=False)
 
 
 class LoginForm(forms.Form):

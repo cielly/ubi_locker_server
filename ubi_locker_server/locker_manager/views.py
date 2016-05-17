@@ -99,21 +99,13 @@ def remove_admin(request, pk):
 	return render(request, 'locker_manager/admin_list.html', {'admins':admins})
 
 def register_access(request):
-	#person_form = PersonForm(prefix="prs")
-	#locker_form = LockerForm(prefix="lcr")
 	access_form = AccessForm(prefix="acs")
 	access_ad_form = AccessAditionalForm(prefix="ad")
 
 	if request.method == 'POST':
-		#person_form = PersonForm(request.POST, prefix="prs")
-		#locker_form = LockerForm(request.POST, prefix="lcr")
 		access_form = AccessForm(request.POST, prefix="acs")
 		access_ad_form = AccessAditionalForm(request.POST, prefix="ad")
-		#if person_form.is_valid() and locker_form.is_valid() and access_form.is_valid():
 		if access_form.is_valid() and access_ad_form.is_valid():
-		
-			#person = person_form.save()
-			#locker = locker_form.save()	
 			access = access_form.save(commit=False)
 			matr = access_ad_form.cleaned_data['matriculation']
 			room = access_ad_form.cleaned_data['room']
@@ -126,37 +118,32 @@ def register_access(request):
 			return render(request, 'locker_manager/register_access.html',{'access_form':access_form, 'access_ad_form':access_ad_form})
 
 	else:	
-		messages.error(request, "Error")
 		return render(request, 'locker_manager/register_access.html',{'access_form':access_form, 'access_ad_form':access_ad_form})
 
 
 def edit_access(request, pk):
-	person_form = PersonForm(prefix="prs")
-	locker_form = LockerForm(prefix="lcr")
 	access_form = AccessForm(prefix="acs")
+	access_ad_form = AccessAditionalForm(prefix="ad")
 
 	access = get_object_or_404(Access, pk=pk)
 	if request.method == 'POST':
-		person_form = PersonForm(request.POST, prefix="prs", instance=access.person)
-		locker_form = LockerForm(request.POST, prefix="lcr", instance=access.locker)
 		access_form = AccessForm(request.POST, prefix="acs", instance=access)
-		if person_form.is_valid() and locker_form.is_valid() and access_form.is_valid():
-			person = person_form.save()
-			locker = locker_form.save()	
+		access_ad_form = AccessAditionalForm(request.POST, prefix="ad")
+		if access_form.is_valid() and access_ad_form.is_valid():
 			access = access_form.save(commit=False)
-			access.person = person
-			access.locker = locker
+			matr = access_ad_form.cleaned_data['matriculation']
+			room = access_ad_form.cleaned_data['room']
+			access.person = get_object_or_404(Person, matriculation=matr)
+			access.locker = get_object_or_404(Locker, room=room)
 			access.save()
 			return redirect('locker_manager.views.access_details', pk=access.pk)
 		else:
 			messages.error(request, "Error")
-			return render(request, 'locker_manager/register_access.html',{'access_form':access_form, 'person_form':person_form, 'locker_form': locker_form})
-	else:
-		person_form = PersonForm(prefix="prs", instance=access.person)
-		locker_form = LockerForm(prefix="lcr", instance=access.locker)
-		access_form = AccessForm(prefix="acs", instance=access)
-		return render(request, 'locker_manager/register_access.html',{'access_form':access_form, 'person_form':person_form, 'locker_form': locker_form})
+			return render(request, 'locker_manager/register_access.html',{'access_form':access_form, 'access_ad_form':access_ad_form})
 
+	else:	
+		access_form = AccessForm(prefix="acs", instance=access)
+		return render(request, 'locker_manager/register_access.html',{'access_form':access_form, 'access_ad_form':access_ad_form})
 
 def access_details(request, pk):
 	access = get_object_or_404(Access, pk=pk)
@@ -167,3 +154,57 @@ def remove_access(request, pk):
 	admins = Admin.objects.all()	
 	return render(request, 'locker_manager/admin_list.html', {'admins':admins})
 
+def consult_access(request):
+	access_ad_form = AccessAditionalForm(prefix="ad")
+
+	if request.method == 'POST':
+		access_ad_form = AccessAditionalForm(request.POST, prefix="ad")
+		if access_ad_form.is_valid():
+			matr = access_ad_form.cleaned_data['matriculation']
+			room = access_ad_form.cleaned_data['room']
+			return redirect('consult-access-details', matr=matr, room=room)
+
+		else:
+			content = {'form is not valid'}
+			return HttpResponse(content, content_type='application/json')		
+
+	else:
+		return render(request, 'locker_manager/consult_access.html',{'access_ad_form':access_ad_form})
+
+
+def consult_access_details(request, matr, room):
+	print matr
+	if matr != '*' and room != '*':
+		person = get_object_or_404(Person, matriculation=matr)
+		locker = get_object_or_404(Locker, room=room)
+		accesses = Access.objects.filter(person=person, locker=locker)
+		if accesses is not None:
+			return render(request, 'locker_manager/consult_access_details.html',{'accesses':accesses})
+		else:
+			content = {'access is None'}
+			return HttpResponse(content, content_type='application/json')
+	
+	elif matr != "*":
+		person = get_object_or_404(Person, matriculation=matr)
+		accesses = Access.objects.filter(person=person)
+		if accesses is not None:
+			return render(request, 'locker_manager/consult_access_details.html',{'accesses':accesses})
+		else:
+			content = {'access is None'}
+			return HttpResponse(content, content_type='application/json')
+
+	elif room != "*":
+		locker = get_object_or_404(Locker, room=room)
+		accesses = Access.objects.filter(locker=locker)
+		if accesses is not None:
+			return render(request, 'locker_manager/consult_access_details.html',{'accesses':accesses})
+		else:
+			content = {'access is None'}
+			return HttpResponse(content, content_type='application/json')
+
+	else:
+		content = {'not params.'}
+		return HttpResponse(content, content_type='application/json')
+
+
+				
