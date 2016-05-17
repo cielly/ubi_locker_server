@@ -22,7 +22,7 @@ def lm_login(request):
 			if user is not None:
 				if user.is_active:
 					login(request, user)
-					return render(request, 'locker_manager/home.html')
+					return redirect('home')
 				else:
 					content = {'user is not active'}
 					return HttpResponse(content, content_type='application/json')
@@ -39,6 +39,9 @@ def lm_login(request):
 def lm_logout(request):
 	logout(request)
 	return redirect('login')
+
+def home(request):
+	return render(request, 'locker_manager/home.html')
 
 def admin_list(request):
 	admins = Admin.objects.all()
