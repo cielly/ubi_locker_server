@@ -177,7 +177,6 @@ def consult_access(request):
 
 
 def consult_access_details(request, matr, room):
-	print matr
 	if matr != '*' and room != '*':
 		person = get_object_or_404(Person, matriculation=matr)
 		locker = get_object_or_404(Locker, room=room)
@@ -215,7 +214,58 @@ def consult_access_details(request, matr, room):
 			return HttpResponse(content, content_type='application/json')
 
 
-				
 def consult_log(request):
-	logs = Log.objects.all()	
-	return render(request, 'locker_manager/log.html', {'logs':logs})
+	log_ad_form = AccessAditionalForm(prefix="ad")
+
+	if request.method == 'POST':
+		log_ad_form = AccessAditionalForm(request.POST, prefix="ad")
+		if log_ad_form.is_valid():
+			matr = log_ad_form.cleaned_data['matriculation']
+			room = log_ad_form.cleaned_data['room']
+			return redirect('consult-log-details', matr=matr, room=room)
+
+		else:
+			content = {'form is not valid'}
+			return HttpResponse(content, content_type='application/json')		
+
+	else:
+		return render(request, 'locker_manager/consult_log.html',{'log_ad_form':log_ad_form})
+
+
+				
+def consult_log_details(request, matr, room):
+	if matr != '*' and room != '*':
+		person = get_object_or_404(Person, matriculation=matr)
+		locker = get_object_or_404(Locker, room=room)
+		logs = Log.objects.filter(person=person, locker=locker)
+		if logs is not None:
+			return render(request, 'locker_manager/log_details.html',{logs:logs})
+		else:
+			content = {'log is None'}
+			return HttpResponse(content, content_type='application/json')
+	
+	elif matr != "*":
+		person = get_object_or_404(Person, matriculation=matr)
+		logs = Log.objects.filter(person=person)
+		if logs is not None:
+			return render(request, 'locker_manager/consult_log_details.html',{'logs':logs})
+		else:
+			content = {'log is None'}
+			return HttpResponse(content, content_type='application/json')
+
+	elif room != "*":
+		locker = get_object_or_404(Locker, room=room)
+		logs = Log.objects.filter(locker=locker)
+		if logs is not None:
+			return render(request, 'locker_manager/consult_log_details.html',{'logs':logs})
+		else:
+			content = {'log is None'}
+			return HttpResponse(content, content_type='application/json')
+
+	else:
+		logs = Log.objects.all()
+		if logs is not None:
+			return render(request, 'locker_manager/consult_log_details.html',{'logs':logs})
+		else:
+			content = {'log is None'}
+			return HttpResponse(content, content_type='application/json')

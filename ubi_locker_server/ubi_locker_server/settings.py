@@ -153,7 +153,7 @@ LOGIN_URL = '/login/'
 
 LOGIN_EXEMPT_URLS = (
     '/docs/',
-    '/data/' 
+    '/api/' 
 ) 
 
 TEMPLATE_CONTEXT_PROCESSORS = (

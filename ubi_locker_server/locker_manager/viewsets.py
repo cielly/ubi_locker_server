@@ -1,5 +1,5 @@
 from rest_framework import viewsets
-from .models import Person, Admin, Locker, Access
+from .models import Person, Admin, Locker, Access, Log
 from .serializers import UserSerializer, PersonSerializer, AdminSerializer, LockerSerializer, AccessSerializer
 from rest_framework.parsers import JSONParser
 from rest_framework.decorators import detail_route, list_route, parser_classes
@@ -93,8 +93,15 @@ class AccessViewSet(viewsets.ModelViewSet):
         current_time = datetime.datetime.now(recife).time()
         for access in accesses:
             if current_time >= access.initial_time and current_time <= access.final_time and locker_id == access.locker.locker_id:
+                log = Log()     
+                log.register_success(access)
                 content = {'access':1, 'message':'access granted.'}
-                return Response(content, status=status.HTTP_200_OK)     
+                return Response(content, status=status.HTTP_200_OK)
+        access = Access()
+        access.locker = get_object_or_404(Locker, locker_id=locker_id)
+        access.person = person
+        log = Log()     
+        log.register_failure(access)             
         content = {'access':0, 'message':'access denied.'}
         return Response(content, status=status.HTTP_200_OK)
 
@@ -112,8 +119,15 @@ class AccessViewSet(viewsets.ModelViewSet):
             current_time = datetime.datetime.now(recife).time()
             for access in accesses:
                 if current_time >= access.initial_time and current_time <= access.final_time and locker_id == access.locker.locker_id:
+                    log = Log()     
+                    log.register_success(access)
                     content = {'access':1, 'message':'access granted.'}
-                    return Response(content, status=status.HTTP_200_OK)     
+                    return Response(content, status=status.HTTP_200_OK)
+        access = Access()
+        access.locker = get_object_or_404(Locker, locker_id=locker_id)
+        access.person = person
+        log = Log()     
+        log.register_failure(access)
         content = {'access':0, 'message':'access denied.'}
         return Response(content, status=status.HTTP_200_OK)
 

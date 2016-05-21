@@ -4,6 +4,8 @@ from django.conf import settings
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from rest_framework.authtoken.models import Token
+from datetime import datetime, date
+
 
 class Person(models.Model):
 	matriculation = models.PositiveIntegerField(primary_key=True) 			
@@ -37,5 +39,22 @@ class Log(models.Model):
 	locker = models.ForeignKey('Locker', on_delete=models.CASCADE)
 	time = models.DateTimeField()
 	status = models.CharField(max_length=200)
+
+	def __str__(self):
+		return self.pk
+
+	def register_success(self, access):
+		self.locker = access.locker
+		self.person = access.person
+		self.time = datetime.now()
+		self.status = "authorized"
+		self.save()
+
+	def register_failure(self, access):
+		self.locker = access.locker
+		self.person = access.person
+		self.time = datetime.now()
+		self.status = "denied"
+		self.save()
 
 
