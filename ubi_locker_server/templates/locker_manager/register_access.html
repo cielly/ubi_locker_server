@@ -1,7 +1,7 @@
 {% extends "locker_manager/base.html" %}
 {% load widget_tweaks %}
 
-{% block header %}
+{% block head %}
 
  {% if messages %}
         {% for message in messages %}
@@ -9,20 +9,20 @@
         {% endfor %}
     {% endif %}
 
-{% endblock header %}
+{% endblock head %}
 
 {% block content %}
 
 <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        General Form Elements
+        Cadastro de Acessos
         <small>Preview</small>
       </h1>
       <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Forms</a></li>
-        <li class="active">General Elements</li>
+        <li><a href="#">Acessos</a></li>
+        <li class="active">Cadastro</li>
       </ol>
     </section>
 
@@ -34,7 +34,7 @@
           <!-- general form elements -->
           <div class="box box-primary">
             <div class="box-header with-border">
-              <h3 class="box-title">Cadastro</h3>
+              <h3 class="box-title">Cadastre um novo acesso:</h3>
             </div>
             <!-- /.box-header -->
             <!-- form start -->

@@ -1,28 +1,91 @@
 {% extends "locker_manager/base.html" %}
+{% load staticfiles %}
+
+{% block head %}
+<!-- DataTables -->
+  <link rel="stylesheet" href={% static 'plugins/datatables/dataTables.bootstrap.css' %}>
+{% endblock %}
 
 {% block content %}
 <!-- Content Header (Page header) -->
-    <section class="content-header">
+   <section class="content-header">
       <h1>
-        Users
-        <small>Preview</small>
+        Page Header
+        <small>Optional description</small>
       </h1>
       <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Forms</a></li>
-        <li class="active">General Elements</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> Level</a></li>
+        <li class="active">Here</li>
       </ol>
-    
+    </section>
 
-    <!-- Main content -->
+      <!-- Your Page Content Here -->
 
-	{% for  access in accesses %}
-		<h4>{{access.person.matriculation}} | {{access.locker.room}} | {{access.initial_time}} | {{access.final_time}} </h4> 
-	    
+<section class="content">
+      <div class="row">
+        <div class="col-xs-12">
 
-	{% endfor %}
-
-
-  </section>
+      <div class="box">
+            <div class="box-header">
+              <h3 class="box-title">Data Table With Full Features</h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+              <table id="example1" class="table table-bordered table-striped">
+                <thead>
+                <tr>
+                  <th>Matricula</th>
+                  <th>Sala</th>
+                  <th>Hora inicial</th>
+                  <th>Hora final</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for  access in accesses %}
+                <tr>
+                  <td>{{access.person.matriculation}}</td>
+                  <td>{{access.locker.room}} </td>
+                  <td>{{access.initial_time}}</td>
+                  <td>{{access.final_time}}</td>
+                </tr>
+                {% endfor %}
+                </tfoot>
+              </table>
+            </div>
+            <!-- /.box-body -->
+          </div>
+          <!-- /.box -->
+  <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
 
 	{% endblock content %}
+
+{% block script %}
+
+<!-- DataTables -->
+<script src={% static 'plugins/datatables/jquery.dataTables.min.js' %}></script>
+<script src={% static 'plugins/datatables/dataTables.bootstrap.min.js' %}></script>
+<!-- SlimScroll -->
+<script src={% static 'plugins/slimScroll/jquery.slimscroll.min.js' %}></script>
+<!-- FastClick -->
+<script src={% static 'plugins/fastclick/fastclick.js' %}></script>
+
+<!-- page script -->
+<script type="text/javascript">
+  $(function () {
+    $('#example1').DataTable({
+      "paging": true,
+      "lengthChange": true,
+      "searching": false,
+      "ordering": true,
+      "info": true,
+      "autoWidth": true
+    });
+  });
+</script>
+
+{% endblock %}
+

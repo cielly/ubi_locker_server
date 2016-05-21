@@ -6,9 +6,13 @@ from forms import AdminForm, UserForm, PersonForm, LockerForm, AccessForm, Acces
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from rest_framework.response import Response
-from rest_framework import status
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 # Create your views here.
+
+def data(request):
+	return render(request, 'locker_manager/data.html')
 
 def lm_login(request):
 	login_form = LoginForm(prefix="lg")
@@ -203,8 +207,12 @@ def consult_access_details(request, matr, room):
 			return HttpResponse(content, content_type='application/json')
 
 	else:
-		content = {'not params.'}
-		return HttpResponse(content, content_type='application/json')
+		accesses = Access.objects.all()
+		if accesses is not None:
+			return render(request, 'locker_manager/consult_access_details.html',{'accesses':accesses})
+		else:
+			content = {'access is None'}
+			return HttpResponse(content, content_type='application/json')
 
 
 				

@@ -19,9 +19,6 @@ class UserViewSet(viewsets.ModelViewSet):
     serializer_class = UserSerializer
 
 class PersonViewSet(viewsets.ModelViewSet):
-    """
-    This viewset automatically provides `list` and `detail` actions.
-    """
     queryset = Person.objects.all()
     serializer_class = PersonSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
@@ -39,6 +36,10 @@ class PersonViewSet(viewsets.ModelViewSet):
     @list_route(methods=['post'], url_path='set-rfid')
     @parser_classes((JSONParser,))
     def set_RFID_by_locker_pass(self, request, **kwargs):
+        """
+        Set RFID of non-admin user. Params: locker_pass; matriculation
+        ---
+        """
     	req_data = request.data
     	locker_pass = req_data['locker_pass']
     	matriculation = req_data['matriculation']
@@ -78,6 +79,7 @@ class AccessViewSet(viewsets.ModelViewSet):
     queryset = Access.objects.all()
     serializer_class = AccessSerializer
     permission_classes = (IsAuthenticatedOrReadOnly,)
+
 
     @list_route(methods=['get'], url_path='get-by-rfid')
     @parser_classes((JSONParser,))

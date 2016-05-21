@@ -40,7 +40,9 @@ INSTALLED_APPS = (
     'locker_manager',
     'widget_tweaks',  # pip install django-widget-tweaks
     'rest_framework', 
-    'rest_framework.authtoken'
+    'rest_framework.authtoken',
+    'rest_framework_docs',
+    'rest_framework_swagger',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -52,6 +54,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'locker_manager.middleware.LoginRequiredMiddleware',
 )
 
 ROOT_URLCONF = 'ubi_locker_server.urls'
@@ -133,12 +136,25 @@ REST_FRAMEWORK = {
 }
 
 REST_FRAMEWORK = {
+'PAGE_SIZE': 10, 
 'DEFAULT_AUTHENTICATION_CLASSES': (
     'rest_framework.authentication.TokenAuthentication',
-)}
+)
+}
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
 
 SESSION_ENGIN = 'django.contrib.sessions.backends.cache'
+
+LOGIN_URL = '/login/'
+
+LOGIN_EXEMPT_URLS = (
+    '/docs/',
+    '/data/' 
+) 
+
+TEMPLATE_CONTEXT_PROCESSORS = (
+    'django.core.context_processors.auth',
+)

@@ -15,6 +15,7 @@ class Person(models.Model):
 
 class Admin(Person):
 	user = models.OneToOneField(User, on_delete=models.CASCADE, default=None, blank=True)
+	pic = models.ImageField(upload_to="/pics/", default=)
 
 	@receiver(post_save, sender=settings.AUTH_USER_MODEL)
 	def create_auth_token(sender, instance=None, created=False, **kwargs):
@@ -30,3 +31,11 @@ class Access(models.Model):
 	locker = models.ForeignKey('Locker', on_delete=models.CASCADE)
 	initial_time = models.TimeField(help_text="Please use the following format: <em>HH:MM</em>.")
 	final_time = models.TimeField(help_text="Please use the following format: <em>HH:MM</em>.")
+
+class Log(models.Model):
+	person = models.ForeignKey('Person', on_delete=models.CASCADE)
+	locker = models.ForeignKey('Locker', on_delete=models.CASCADE)
+	time = models.DateTimeField()
+	status = models.CharField()
+
+

@@ -36,9 +36,11 @@ router.register(r'access', AccessViewSet)
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^api/', include(router.urls)),
+    url(r'^docs/', include('rest_framework_swagger.urls')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     
     url(r'^login/', 'locker_manager.views.lm_login', name="login"),
+    url(r'^data/', 'locker_manager.views.data', name="data"),
     url(r'^logout/', 'locker_manager.views.lm_logout', name="logout"),
     url(r'^home/', 'locker_manager.views.home', name="home"),  
     url(r'^admin/list/$', 'locker_manager.views.admin_list', name="list_admin"),
