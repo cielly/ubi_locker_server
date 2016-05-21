@@ -149,6 +149,8 @@ desired effect
 
          <li class="active"><a href={% url 'locker_manager.views.register_access' %}><i class="fa fa-link"></i> <span>Cadastrar novo acesso</span></a></li>  
 
+         <li class="active"><a href={% url 'locker_manager.views.consult_log' %}><i class="fa fa-link"></i> <span>Consultar log</span></a></li>  
+
         <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>Acessos</span> <i class="fa fa-angle-left pull-right"></i></a>
           <ul class="treeview-menu">
@@ -263,6 +265,10 @@ desired effect
 <script src={% static 'bootstrap/js/bootstrap.min.js' %}></script>
 <!-- AdminLTE App -->
 <script src={% static 'dist/js/app.min.js' %}></script>
+<!-- SlimScroll -->
+<script src={% static 'plugins/slimScroll/jquery.slimscroll.min.js' %}></script>
+<!-- FastClick -->
+<script src={% static 'plugins/fastclick/fastclick.js' %}></script>
 
   {% block script %}
   {% endblock %}

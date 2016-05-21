@@ -1,7 +1,7 @@
 from django.shortcuts import render, render_to_response, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.models import User
-from .models import Admin, Person, Access, Locker
+from .models import Admin, Person, Access, Locker, Log
 from forms import AdminForm, UserForm, PersonForm, LockerForm, AccessForm, AccessAditionalForm, LoginForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -216,3 +216,6 @@ def consult_access_details(request, matr, room):
 
 
 				
+def consult_log(request):
+	logs = Log.objects.all()	
+	return render(request, 'locker_manager/log.html', {'logs':logs})
