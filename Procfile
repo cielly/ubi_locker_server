@@ -1,1 +1,1 @@
-web: gunicorn ubi_locker_manager.wsgi --log-file -
+web: gunicorn myapp.wsgi
