@@ -271,14 +271,14 @@ def consult_log_details(request, matr, room):
 			return HttpResponse(content, content_type='application/json')
 
 def register_person(request):
-	person_form = personForm(prefix="prs")
+	person_form = PersonForm(prefix="prs")
 
 	if request.method == 'POST':
 		person_form = PersonForm(request.POST, prefix="prs")
 		if person_form.is_valid():
 			person = person_form.save(commit=False)
 			person.save()
-			return redirect('locker_manager.views.person_details', pk=person.pk)
+			return redirect('locker_manager.views.person_details', matriculation=person.matriculation)
 		else:
 			messages.error(request, "Error")
 			return render(request, 'locker_manager/register_person.html',{'person_form':person_form})
@@ -287,9 +287,9 @@ def register_person(request):
 		return render(request, 'locker_manager/register_person.html',{'person_form':person_form})
 
 def edit_person(request, matriculation):
-	person_form = personForm(prefix="prs")
+	person_form = PersonForm(prefix="prs")
 
-	person = get_object_or_404(person, matriculation=matriculation)
+	person = get_object_or_404(Person, matriculation=matriculation)
 	if request.method == 'POST':
 		person_form = PersonForm(request.POST, prefix="prs", instance=person)
 		if person_form.is_valid():
@@ -300,9 +300,13 @@ def edit_person(request, matriculation):
 			messages.error(request, "Error")
 			return render(request, 'locker_manager/register_person.html',{'person_form':person_form})
 	else:
-		person_form = personForm(prefix="prs", instance=person)	
+		person_form = PersonForm(prefix="prs", instance=person)	
 		return render(request, 'locker_manager/register_person.html',{'person_form':person_form})	
 
-def remove_admin(request, matriculation):
+def person_details(request, matriculation):
+	person = get_object_or_404(Person, matriculation=matriculation)
+	return render(request, 'locker_manager/person_details.html', {'person':person})
+
+def remove_person(request, matriculation):
 	Person.objects.get(matriculation=matriculation).delete()
 	return render(request, 'locker_manager/home.html')
