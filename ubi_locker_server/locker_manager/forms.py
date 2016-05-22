@@ -25,14 +25,14 @@ class PersonForm(forms.ModelForm):
 
 	class Meta:
 		model = Person
-		fields = ('matriculation',)
+		fields = ('matriculation', 'locker_password')
 
 
 class AdminForm(forms.ModelForm):
 
 	class Meta:
 		model = Admin
-		fields = ('matriculation',)
+		fields = ('matriculation','locker_password')
 
 
 class LockerForm(forms.ModelForm):

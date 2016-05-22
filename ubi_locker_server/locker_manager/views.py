@@ -239,7 +239,7 @@ def consult_log_details(request, matr, room):
 		locker = get_object_or_404(Locker, room=room)
 		logs = Log.objects.filter(person=person, locker=locker)
 		if logs is not None:
-			return render(request, 'locker_manager/log_details.html',{logs:logs})
+			return render(request, 'locker_manager/log_details.html',{'logs':logs})
 		else:
 			content = {'log is None'}
 			return HttpResponse(content, content_type='application/json')
@@ -248,7 +248,7 @@ def consult_log_details(request, matr, room):
 		person = get_object_or_404(Person, matriculation=matr)
 		logs = Log.objects.filter(person=person)
 		if logs is not None:
-			return render(request, 'locker_manager/consult_log_details.html',{'logs':logs})
+			return render(request, 'locker_manager/log_details.html',{'logs':logs})
 		else:
 			content = {'log is None'}
 			return HttpResponse(content, content_type='application/json')
@@ -257,7 +257,7 @@ def consult_log_details(request, matr, room):
 		locker = get_object_or_404(Locker, room=room)
 		logs = Log.objects.filter(locker=locker)
 		if logs is not None:
-			return render(request, 'locker_manager/consult_log_details.html',{'logs':logs})
+			return render(request, 'locker_manager/log_details.html',{'logs':logs})
 		else:
 			content = {'log is None'}
 			return HttpResponse(content, content_type='application/json')
@@ -265,7 +265,44 @@ def consult_log_details(request, matr, room):
 	else:
 		logs = Log.objects.all()
 		if logs is not None:
-			return render(request, 'locker_manager/consult_log_details.html',{'logs':logs})
+			return render(request, 'locker_manager/log_details.html',{'logs':logs})
 		else:
 			content = {'log is None'}
 			return HttpResponse(content, content_type='application/json')
+
+def register_person(request):
+	person_form = personForm(prefix="prs")
+
+	if request.method == 'POST':
+		person_form = PersonForm(request.POST, prefix="prs")
+		if person_form.is_valid():
+			person = person_form.save(commit=False)
+			person.save()
+			return redirect('locker_manager.views.person_details', pk=person.pk)
+		else:
+			messages.error(request, "Error")
+			return render(request, 'locker_manager/register_person.html',{'person_form':person_form})
+
+	else:	
+		return render(request, 'locker_manager/register_person.html',{'person_form':person_form})
+
+def edit_person(request, matriculation):
+	person_form = personForm(prefix="prs")
+
+	person = get_object_or_404(person, matriculation=matriculation)
+	if request.method == 'POST':
+		person_form = PersonForm(request.POST, prefix="prs", instance=person)
+		if person_form.is_valid():
+			person = person_form.save(commit=False)
+			person.save()
+			return redirect('locker_manager.views.person_details', matriculation=person.matriculation)
+		else:
+			messages.error(request, "Error")
+			return render(request, 'locker_manager/register_person.html',{'person_form':person_form})
+	else:
+		person_form = personForm(prefix="prs", instance=person)	
+		return render(request, 'locker_manager/register_person.html',{'person_form':person_form})	
+
+def remove_admin(request, matriculation):
+	Person.objects.get(matriculation=matriculation).delete()
+	return render(request, 'locker_manager/home.html')

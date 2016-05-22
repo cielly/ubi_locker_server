@@ -152,8 +152,8 @@ SESSION_ENGIN = 'django.contrib.sessions.backends.cache'
 LOGIN_URL = '/login/'
 
 LOGIN_EXEMPT_URLS = (
-    '/docs/',
-    '/api/' 
+    r'^docs/', # allow any URL under /docs/*
+    r'^api/', # allow any URL under /api/*
 ) 
 
 TEMPLATE_CONTEXT_PROCESSORS = (

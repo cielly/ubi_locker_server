@@ -110,7 +110,7 @@ desired effect
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
                 </div>
                 <div class="pull-right">
-                  <a href="#" class="btn btn-default btn-flat">Sign out</a>
+                  <a href={% url 'locker_manager.views.lm_logout' %} class="btn btn-default btn-flat">Sign out</a>
                 </div>
               </li>
             </ul>
@@ -150,6 +150,9 @@ desired effect
          <li class="active"><a href={% url 'locker_manager.views.register_access' %}><i class="fa fa-link"></i> <span>Cadastrar novo acesso</span></a></li>  
 
          <li class="active"><a href={% url 'locker_manager.views.consult_log' %}><i class="fa fa-link"></i> <span>Consultar log</span></a></li>  
+
+          <li class="active"><a href={% url 'locker_manager.views.register_person' %}><i class="fa fa-link"></i> <span>Cadastrar novo aluno</span></a></li>  
+
 
         <li class="treeview">
           <a href="#"><i class="fa fa-link"></i> <span>Acessos</span> <i class="fa fa-angle-left pull-right"></i></a>

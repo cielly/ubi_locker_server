@@ -45,6 +45,8 @@ class PersonViewSet(viewsets.ModelViewSet):
     	matriculation = req_data['matriculation']
     	rfid = req_data['rfid']  
     	person = get_object_or_404(Person, matriculation=matriculation)
+        if person is None:
+            person = get_object_or_404(Admin, matriculation=matriculation)
 	if person.locker_password == locker_pass:
 		setattr(person, 'RFID', rfid)
 	 	person.save()

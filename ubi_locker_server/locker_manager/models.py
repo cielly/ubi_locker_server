@@ -9,7 +9,7 @@ from datetime import datetime, date
 
 class Person(models.Model):
 	matriculation = models.PositiveIntegerField(primary_key=True) 			
-	locker_password = models.CharField(max_length=50)
+	locker_password = models.CharField(max_length=50, help_text='4-Digit password used to unlock the locker')
 	RFID = models.CharField(max_length=200)
 
 	def __str__(self):

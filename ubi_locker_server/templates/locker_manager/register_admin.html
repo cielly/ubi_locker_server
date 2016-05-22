@@ -62,6 +62,11 @@
                 </div>
 
                 <div class="form-group">
+                  <label for="matr">Senha da Fechadura</label>
+                  {% render_field admin_form.locker_password class="form-control" id="senha" placeholder="Digite sua senha" %}
+                </div>
+
+                <div class="form-group">
                   <label for="username">Nome de usuário</label>
                    {% render_field user_form.username class="form-control" id='username' placeholder="Digite seu username" %}
                 </div>
