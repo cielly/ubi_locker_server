@@ -44,6 +44,7 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     'rest_framework_docs',
     'rest_framework_swagger',
+    'gunicorn',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -113,7 +114,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-SSTATIC_ROOT = BASE_DIR+'/static'
+PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
+
+STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 
 STATICFILES_DIRS = (
     BASE_DIR+'/static',
