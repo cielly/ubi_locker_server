@@ -2,7 +2,7 @@
 Introduction
 ============
 
-**AdminLTE** -- is a fully responsive admin template. Based on **[Bootstrap 3](https://github.com/twbs/bootstrap)** framework. Highly customizable and easy to use. Fits many screen resolutions from small mobile devices to large desktops. Check out the live preview now and see for yourself.
+**AdminLTE** -- is a fully responsive Admin template. Based on **[Bootstrap 3](https://github.com/twbs/bootstrap)** framework. Highly customizable and easy to use. Fits many screen resolutions from small mobile devices to large desktops. Check out the live preview now and see for yourself.
 
 **Download & Preview on [Almsaeed Studio](https://almsaeedstudio.com)**
 
@@ -36,19 +36,19 @@ git clone https://github.com/YOUR_USERNAME/AdminLTE.git
 **Bower**
 
 ```
-bower install admin-lte
+bower install Admin-lte
 ```
 
 **npm**
 
 ```
-npm install --save admin-lte
+npm install --save Admin-lte
 ```
 
 **Composer**
 
 ```
-composer require "almasaeed2010/adminlte=~2.0"
+composer require "almasaeed2010/Adminlte=~2.0"
 ```
 
 Documentation

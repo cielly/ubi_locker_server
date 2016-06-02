@@ -1,5 +1,5 @@
 {
-  "name": "admin-lte",
+  "name": "Admin-lte",
   "version": "2.3.3",
   "main": "dist/js/app.min.js",
   "repository": {

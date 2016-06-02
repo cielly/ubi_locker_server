@@ -15,10 +15,10 @@
     </section>
 
     <!-- Main content -->
-		<h3>{{ admin.user.first_name }}</h3>
-	    <h4><b>Matricula:</b>{{ admin.matriculation }}</h4>
+		<h3>{{ Admin.user.first_name }}</h3>
+	    <h4><b>Matricula:</b>{{ Admin.matriculation }}</h4>
 
-      <li><a href={% url 'locker_manager.views.edit_admin' pk=admin.pk %}> Edit</a></li>
-      <li><a href={% url 'locker_manager.views.remove_admin' pk=admin.pk %}> Remove</a></li>
+      <li><a href={% url 'locker_manager.views.edit_Admin' pk=Admin.pk %}> Edit</a></li>
+      <li><a href={% url 'locker_manager.views.remove_Admin' pk=Admin.pk %}> Remove</a></li>
 
 	{% endblock content %}

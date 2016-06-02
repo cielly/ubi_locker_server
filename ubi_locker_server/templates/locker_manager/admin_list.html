@@ -16,9 +16,9 @@
 
     <!-- Main content -->
 
-	{% for  admin in admins %}
-		<h3>{{admin.user.first_name}}</h3>
-	    <h4><b>Matricula:</b>{{ admin.matriculation }}</h4>
+	{% for  Admin in Admins %}
+		<h3>{{Admin.user.first_name}}</h3>
+	    <h4><b>Matricula:</b>{{ Admin.matriculation }}</h4>
 
 	{% endfor %}
 

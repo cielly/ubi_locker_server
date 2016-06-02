@@ -37,7 +37,7 @@ class PersonViewSet(viewsets.ModelViewSet):
     @parser_classes((JSONParser,))
     def set_RFID_by_locker_pass(self, request, **kwargs):
         """
-        Set RFID of non-admin user. Params: locker_pass; matriculation
+        Set RFID of non-Admin user. Params: locker_pass; matriculation
         ---
         """
     	req_data = request.data

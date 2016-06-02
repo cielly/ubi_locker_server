@@ -1,6 +1,6 @@
 {
-  "name": "almasaeed2010/adminlte",
-  "description": "AdminLTE - admin control panel and dashboard that's based on Bootstrap 3",
+  "name": "almasaeed2010/Adminlte",
+  "description": "AdminLTE - Admin control panel and dashboard that's based on Bootstrap 3",
   "homepage": "http://almsaeedstudio.com/",
   "keywords": [
     "css",
@@ -11,7 +11,7 @@
     "template",
     "theme",
     "web",
-    "admin"
+    "Admin"
   ],
   "authors": [
     {

@@ -18,7 +18,7 @@ class Migration(migrations.Migration):
             field=models.CharField(default=b'', max_length=200),
         ),
         migrations.AlterField(
-            model_name='admin',
+            model_name='Admin',
             name='user',
             field=models.OneToOneField(default=None, blank=True, to=settings.AUTH_USER_MODEL),
         ),

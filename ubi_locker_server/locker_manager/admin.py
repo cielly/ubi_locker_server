@@ -4,5 +4,5 @@ from django.contrib import admin
 
 # from .models import User
 
-# admin.site.register(User)
-# admin.site.unregister(User)
+# Admin.site.register(User)
+# Admin.site.unregister(User)

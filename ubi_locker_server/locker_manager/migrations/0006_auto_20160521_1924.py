@@ -22,9 +22,9 @@ class Migration(migrations.Migration):
             ],
         ),
         migrations.AddField(
-            model_name='admin',
+            model_name='Admin',
             name='pic',
-            field=models.ImageField(default=b'static/imgs/admin/none.jpg', upload_to=b'static/imgs/admin'),
+            field=models.ImageField(default=b'static/imgs/Admin/none.jpg', upload_to=b'static/imgs/Admin'),
         ),
         migrations.AlterField(
             model_name='access',
