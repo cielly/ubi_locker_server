@@ -38,6 +38,7 @@
                   <th>Sala</th>
                   <th>Hora inicial</th>
                   <th>Hora final</th>
+                  <th>Dias da semana</th>  
                 </tr>
                 </thead>
                 <tbody>
@@ -47,6 +48,11 @@
                   <td>{{access.locker.room}} </td>
                   <td>{{access.initial_time}}</td>
                   <td>{{access.final_time}}</td>
+                  <td>
+                  {% for e in access.day.all %}
+                  {{e}} 
+                  {% endfor %}
+                  </td>
                 </tr>
                 {% endfor %}
                 </tbody>

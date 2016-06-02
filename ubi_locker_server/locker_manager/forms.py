@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 
-from .models import Admin, Person, Locker, Access
+from .models import Admin, Person, Locker, Access, Weekday
 
 class UserForm(UserCreationForm):
     email = forms.EmailField(required=True)
@@ -43,10 +43,11 @@ class LockerForm(forms.ModelForm):
 
 
 class AccessForm(forms.ModelForm):
+	day = forms.ModelMultipleChoiceField(queryset=Weekday.objects.all(), required=False, widget=forms.CheckboxSelectMultiple)
 
 	class Meta:
 		model = Access
-		fields = ('initial_time', 'final_time')
+		fields = ('initial_time', 'final_time', 'day')
 
 class AccessAditionalForm(forms.Form):
 	WEEK_DAYS = (
@@ -58,7 +59,7 @@ class AccessAditionalForm(forms.Form):
 		(6, 'sabado'),
 		(7, 'domingo'),
 	)
-	
+
 	def get_matr():
 		CHOICES = []
 		matr = Person.objects.values('matriculation')
@@ -77,7 +78,7 @@ class AccessAditionalForm(forms.Form):
 
 	room = forms.ChoiceField(choices=get_room, required=False)
 	matriculation = forms.ChoiceField(choices=get_matr, required=False)
-	weekday = forms.MultipleChoiceField(choices=WEEK_DAYS, widget=forms.CheckboxSelectMultiple())
+	#weekday = forms.MultipleChoiceField(choices=WEEK_DAYS, widget=forms.CheckboxSelectMultiple())
 
 
 class LoginForm(forms.Form):

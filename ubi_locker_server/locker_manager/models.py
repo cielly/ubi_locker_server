@@ -28,25 +28,28 @@ class Locker(models.Model):
 	locker_id = models.CharField(max_length=50)
 	room = models.CharField(max_length=200, default="")
 
+class Weekday(models.Model):
+	WEEK_DAYS = (
+		('1', 'segunda-feira'),
+		('2', 'terca-feira'),
+		('3', 'quarta-feira'),
+		('4', 'quinta-feira'),
+		('5', 'sexta-feira'),
+		('6', 'sabado'),
+		('7', 'domingo'),
+	)	
+
+	weekday = models.CharField(choices=WEEK_DAYS, max_length=50)
+
+	def __str__(self):
+		return self.get_weekday_display()
+
 class Access(models.Model):
 	person = models.ForeignKey('Person', on_delete=models.CASCADE)
 	locker = models.ForeignKey('Locker', on_delete=models.CASCADE)
 	initial_time = models.TimeField(help_text="Please use the following format: <em>HH:MM</em>.")
 	final_time = models.TimeField(help_text="Please use the following format: <em>HH:MM</em>.")
-
-class Weekday(models.Model):
-	WEEK_DAYS = (
-		(1, 'segunda-feira'),
-		(2, 'terca-feira'),
-		(3, 'quarta-feira'),
-		(4, 'quinta-feira'),
-		(5, 'sexta-feira'),
-		(6, 'sabado'),
-		(7, 'domingo'),
-	)	
-
-	access = models.ForeignKey('Access', on_delete=models.CASCADE)
-	weekday = models.CharField(choices=WEEK_DAYS, max_length=50)
+	day = models.ManyToManyField(Weekday)
 
 class Log(models.Model):
 	person = models.ForeignKey('Person', on_delete=models.CASCADE)

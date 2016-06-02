@@ -93,12 +93,15 @@ class AccessViewSet(viewsets.ModelViewSet):
         accesses = Access.objects.filter(person_id=person.matriculation)
         recife = timezone('America/Recife')
         current_time = datetime.datetime.now(recife).time()
+        current_weekday = datetime.datetime.now(recife).weekday()
         for access in accesses:
             if current_time >= access.initial_time and current_time <= access.final_time and locker_id == access.locker.locker_id:
-                log = Log()     
-                log.register_success(access)
-                content = {'access':1, 'message':'access granted.'}
-                return Response(content, status=status.HTTP_200_OK)
+                for ac in access.day.all():
+                    if ac.weekday == str(current_weekday+1):
+                        log = Log()     
+                        log.register_success(access)
+                        content = {'access':1, 'message':'access granted.'}
+                        return Response(content, status=status.HTTP_200_OK)
         access = Access()
         access.locker = get_object_or_404(Locker, locker_id=locker_id)
         access.person = person
@@ -119,12 +122,15 @@ class AccessViewSet(viewsets.ModelViewSet):
             accesses = Access.objects.filter(person_id=person.matriculation)
             recife = timezone('America/Recife')
             current_time = datetime.datetime.now(recife).time()
+            current_weekday = datetime.datetime.now(recife).weekday()
             for access in accesses:
                 if current_time >= access.initial_time and current_time <= access.final_time and locker_id == access.locker.locker_id:
-                    log = Log()     
-                    log.register_success(access)
-                    content = {'access':1, 'message':'access granted.'}
-                    return Response(content, status=status.HTTP_200_OK)
+                    for ac in access.day.all():
+                        if ac.weekday == str(current_weekday+1):
+                            log = Log()     
+                            log.register_success(access)
+                            content = {'access':1, 'message':'access granted.'}
+                            return Response(content, status=status.HTTP_200_OK)
         access = Access()
         access.locker = get_object_or_404(Locker, locker_id=locker_id)
         access.person = person

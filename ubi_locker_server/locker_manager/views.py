@@ -116,6 +116,7 @@ def register_access(request):
 			access.person = get_object_or_404(Person, matriculation=matr)
 			access.locker = get_object_or_404(Locker, room=room)
 			access.save()
+			access_form.save_m2m()
 			return redirect('locker_manager.views.access_details', pk=access.pk)
 		else:
 			messages.error(request, "Error")
@@ -140,6 +141,7 @@ def edit_access(request, pk):
 			access.person = get_object_or_404(Person, matriculation=matr)
 			access.locker = get_object_or_404(Locker, room=room)
 			access.save()
+			access_form.save_m2m()
 			return redirect('locker_manager.views.access_details', pk=access.pk)
 		else:
 			messages.error(request, "Error")
