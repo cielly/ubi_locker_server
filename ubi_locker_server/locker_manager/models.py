@@ -34,6 +34,20 @@ class Access(models.Model):
 	initial_time = models.TimeField(help_text="Please use the following format: <em>HH:MM</em>.")
 	final_time = models.TimeField(help_text="Please use the following format: <em>HH:MM</em>.")
 
+class Weekday(models.Model):
+	WEEK_DAYS = (
+		(1, 'segunda-feira'),
+		(2, 'terca-feira'),
+		(3, 'quarta-feira'),
+		(4, 'quinta-feira'),
+		(5, 'sexta-feira'),
+		(6, 'sabado'),
+		(7, 'domingo'),
+	)	
+
+	access = models.ForeignKey('Access', on_delete=models.CASCADE)
+	weekday = models.CharField(choices=WEEK_DAYS, max_length=50)
+
 class Log(models.Model):
 	person = models.ForeignKey('Person', on_delete=models.CASCADE)
 	locker = models.ForeignKey('Locker', on_delete=models.CASCADE)

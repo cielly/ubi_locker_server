@@ -49,6 +49,16 @@ class AccessForm(forms.ModelForm):
 		fields = ('initial_time', 'final_time')
 
 class AccessAditionalForm(forms.Form):
+	WEEK_DAYS = (
+		(1, 'segunda-feira'),
+		(2, 'terca-feira'),
+		(3, 'quarta-feira'),
+		(4, 'quinta-feira'),
+		(5, 'sexta-feira'),
+		(6, 'sabado'),
+		(7, 'domingo'),
+	)
+	
 	def get_matr():
 		CHOICES = []
 		matr = Person.objects.values('matriculation')
@@ -67,6 +77,7 @@ class AccessAditionalForm(forms.Form):
 
 	room = forms.ChoiceField(choices=get_room, required=False)
 	matriculation = forms.ChoiceField(choices=get_matr, required=False)
+	weekday = forms.MultipleChoiceField(choices=WEEK_DAYS, widget=forms.CheckboxSelectMultiple())
 
 
 class LoginForm(forms.Form):
