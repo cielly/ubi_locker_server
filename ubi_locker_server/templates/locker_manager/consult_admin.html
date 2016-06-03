@@ -10,8 +10,8 @@
 <!-- Content Header (Page header) -->
    <section class="content-header">
       <h1>
-        Chaves
-        <small>Consulta das chaves cadastradas no sistema</small>
+        Funcionários
+        <small>Consulta dos funcionários cadastrados no sistema</small>
       </h1>
     </section>
 
@@ -31,28 +31,16 @@
                 <thead>
                 <tr>
                   <th></th>
-                  <th></th>
-                  <th>Matricula</th>
-                  <th>Sala</th>
-                  <th>Hora inicial</th>
-                  <th>Hora final</th>
-                  <th>Dias da semana</th>  
+                  <th>Nome</th>
+                  <th>Matricula</th> 
                 </tr>
                 </thead>
                 <tbody>
-                {% for  access in accesses %}
+                {% for  admin in admins %}
                 <tr>
-                  <td><a href={% url 'locker_manager.views.edit_access' pk=access.pk %}><i class="fa fa-pencil"></i></a></td>
-                  <td><a href={% url 'locker_manager.views.remove_access' pk=access.pk %}><i class="fa fa-remove"></i></a></td>
-                  <td>{{access.person.matriculation}}</td>
-                  <td>{{access.locker.room}} </td>
-                  <td>{{access.initial_time}}</td>
-                  <td>{{access.final_time}}</td>
-                  <td>
-                  {% for e in access.day.all %}
-                  {{e}} 
-                  {% endfor %}
-                  </td>
+                  <td><a href={% url 'locker_manager.views.admin_details' matriculation=admin.matriculation %}><i class="fa fa-search"></i></a></td>
+                  <td>{{admin.user.first_name}} {{admin.user.last_name}}</td>                    
+                  <td>{{admin.matriculation}}</td>
                 </tr>
                 {% endfor %}
                 </tbody>

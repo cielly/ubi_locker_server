@@ -8,6 +8,7 @@ from django.contrib.auth import authenticate, login, logout
 from rest_framework.response import Response
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.http import HttpResponseRedirect
 
 # Create your views here.
 
@@ -47,9 +48,9 @@ def lm_logout(request):
 def home(request):
 	return render(request, 'locker_manager/home.html')
 
-def admin_list(request):
+def consult_admin(request):
 	admins = Admin.objects.all()
-	return render(request, 'locker_manager/admin_list.html', {'admins':admins})
+	return render(request, 'locker_manager/consult_admin.html', {'admins':admins})
 	
 def register_admin(request):
 	admin_form = AdminForm(prefix="adm")
@@ -93,14 +94,14 @@ def edit_admin(request, pk):
 		user_form = UserForm(prefix="usr", instance=admin.user)
 		return render(request, 'locker_manager/register_admin.html',{'admin_form':admin_form, 'user_form':user_form})	
 
-def admin_details(request, pk):
-	admin = get_object_or_404(Admin, pk=pk)
+def admin_details(request, matriculation):
+	admin = get_object_or_404(Admin, matriculation=matriculation)
 	return render(request, 'locker_manager/admin_details.html', {'admin':admin})
 
-def remove_admin(request, pk):
-	Admin.objects.get(pk=pk).delete()
+def remove_admin(request, matriculation):
+	Admin.objects.get(matriculation=matriculation).delete()
 	admins = Admin.objects.all()	
-	return render(request, 'locker_manager/admin_list.html', {'admins':admins})
+	return render(request, 'locker_manager/consult_admin.html', {'admins':admins})
 
 def register_access(request):
 	access_form = AccessForm(prefix="acs")
@@ -143,6 +144,7 @@ def edit_access(request, pk):
 			access.save()
 			access_form.save_m2m()
 			return redirect('locker_manager.views.access_details', pk=access.pk)
+			#return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 		else:
 			messages.error(request, "Error")
 			return render(request, 'locker_manager/register_access.html',{'access_form':access_form, 'access_ad_form':access_ad_form})
@@ -157,8 +159,7 @@ def access_details(request, pk):
 
 def remove_access(request, pk):
 	Access.objects.get(pk=pk).delete()
-	admins = Admin.objects.all()	
-	return render(request, 'locker_manager/admin_list.html', {'admins':admins})
+	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 def consult_access(request):
 	access_ad_form = AccessAditionalForm(prefix="ad")
@@ -271,6 +272,10 @@ def consult_log_details(request, matr, room):
 		else:
 			content = {'log is None'}
 			return HttpResponse(content, content_type='application/json')
+
+def consult_person(request):
+	persons = Person.objects.all()
+	return render(request, 'locker_manager/consult_person.html', {'persons':persons})
 
 def register_person(request):
 	person_form = PersonForm(prefix="prs")

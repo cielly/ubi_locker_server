@@ -27,6 +27,11 @@ class PersonForm(forms.ModelForm):
 		model = Person
 		fields = ('matriculation', 'locker_password')
 
+	def __init__(self, *args, **kwargs):
+		super(PersonForm, self).__init__(*args, **kwargs)
+		self.fields['locker_password'].label = "Senha da fechadura"
+		self.fields['matriculation'].label = "Matricula"
+
 
 class AdminForm(forms.ModelForm):
 
@@ -49,6 +54,13 @@ class AccessForm(forms.ModelForm):
 		model = Access
 		fields = ('initial_time', 'final_time', 'day')
 
+	def __init__(self, *args, **kwargs):
+		super(AccessForm, self).__init__(*args, **kwargs)
+		self.fields['initial_time'].label = "Hora inicial"
+		self.fields['final_time'].label = "Hora final"
+		self.fields['day'].label = "Dia da semana"
+
+
 class AccessAditionalForm(forms.Form):
 	WEEK_DAYS = (
 		(1, 'segunda-feira'),
@@ -59,6 +71,11 @@ class AccessAditionalForm(forms.Form):
 		(6, 'sabado'),
 		(7, 'domingo'),
 	)
+
+	def __init__(self, *args, **kwargs):
+		super(AccessAditionalForm, self).__init__(*args, **kwargs)
+		self.fields['room'].label = "Sala"
+		self.fields['matriculation'].label = "Matricula"
 
 	def get_matr():
 		CHOICES = []

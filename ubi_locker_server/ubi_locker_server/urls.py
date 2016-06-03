@@ -46,17 +46,18 @@ urlpatterns = [
     url(r'^log/consult/(?P<matr>[\w|\W]+)/(?P<room>[\w|\W]+)/$', 'locker_manager.views.consult_log_details', name="consult-log-details"),   
 
 
+    url(r'^person/consult/$', 'locker_manager.views.consult_person', name="consult_person"),
     url(r'^person/register/$', 'locker_manager.views.register_person', name="register_person"),
     url(r'^person/(?P<matriculation>[\w|\W]+)/details/$', 'locker_manager.views.person_details', name="person_details"),
     url(r'^person/(?P<matriculation>[\w|\W]+)/edit/$', 'locker_manager.views.edit_person', name="edit_person"),
     url(r'^person/(?P<matriculation>[\w|\W]+)/remove/$', 'locker_manager.views.remove_person', name="remove_person"),
    
 
-    url(r'^admin/list/$', 'locker_manager.views.admin_list', name="list_admin"),
+    url(r'^admin/consult/$', 'locker_manager.views.consult_admin', name="consult_admin"),
     url(r'^admin/register/$', 'locker_manager.views.register_admin', name="register_admin"),
-    url(r'^admin/(?P<pk>[\w|\W]+)/details/$', 'locker_manager.views.admin_details', name="admin_details"),
+    url(r'^admin/(?P<matriculation>[\w|\W]+)/details/$', 'locker_manager.views.admin_details', name="admin_details"),
     url(r'^admin/(?P<pk>[\w|\W]+)/edit/$', 'locker_manager.views.edit_admin', name="edit_admin"),
-    url(r'^admin/(?P<pk>[\w|\W]+)/remove/$', 'locker_manager.views.remove_admin', name="remove_admin"),
+    url(r'^admin/(?P<matriculation>[\w|\W]+)/remove/$', 'locker_manager.views.remove_admin', name="remove_admin"),
    
    
     url(r'^access/register/$', 'locker_manager.views.register_access', name="register_access"),

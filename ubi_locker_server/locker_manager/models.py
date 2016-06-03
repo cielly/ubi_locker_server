@@ -24,6 +24,10 @@ class Admin(Person):
 		if created:
 			Token.objects.create(user=instance) 
 
+class Student(Person):
+	program = models.CharField(default="", max_length=100)
+	name = models.CharField(default="", max_length=200)		
+
 class Locker(models.Model):
 	locker_id = models.CharField(max_length=50)
 	room = models.CharField(max_length=200, default="")

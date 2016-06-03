@@ -16,34 +16,24 @@
 <!-- Content Header (Page header) -->
     <section class="content-header">
       <h1>
-        Cadastro de Acessos
-        <small>Preview</small>
+        Chave
+        <small>Cadastro</small>
       </h1>
-      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Acessos</a></li>
-        <li class="active">Cadastro</li>
-      </ol>
     </section>
 
     <!-- Main content -->
     <section class="content">
       <div class="row">
         <!-- left column -->
-        <div class="col-md-6">
-          <!-- general form elements -->
-          <div class="box box-primary">
-            <div class="box-header with-border">
-              <h3 class="box-title">Cadastre um novo acesso:</h3>
-            </div>
-            <!-- /.box-header -->
+        <div class="col-xs-12">
+          <!-- form start -->
             <!-- form start -->
             <form action="" method="POST" role="form" class="form-horizontal">
               <div class="box-body">
               {% csrf_token %}
-
-              {{ access_form.as_p }}    
-              {{ access_ad_form.as_p }}       
+   
+              {{ access_ad_form.as_p }} 
+               {{ access_form.as_p }}       
               
             <!-- /.box-body -->
 
@@ -51,7 +41,7 @@
                 <button type="submit" class="btn btn-primary" value="Submit">Submit</button>
               </div>
             </form> 
-          
+          </div>
           <!-- /.box -->
 
           
@@ -85,16 +75,12 @@
             {% endfor %}
         {% endif %}
 
-        </div>
-
           </div>
         <!--/.col (right) -->
       </div>
       <!-- /.row -->
     </section>
     <!-- /.content -->
-  </div>
-  <!-- /.content-wrapper -->
 
 {% endblock content %}
 
