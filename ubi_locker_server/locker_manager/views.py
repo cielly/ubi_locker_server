@@ -1,7 +1,7 @@
 from django.shortcuts import render, render_to_response, redirect, get_object_or_404
 from django.http import HttpResponse
 from django.contrib.auth.models import User
-from .models import Admin, Person, Access, Locker, Log
+from .models import Admin, Person, Access, Locker, Log, Student
 from forms import AdminForm, UserForm, PersonForm, LockerForm, AccessForm, AccessAditionalForm, LoginForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -9,11 +9,38 @@ from rest_framework.response import Response
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.http import HttpResponseRedirect
+import urllib2 
+import json
+import os.path
+import cStringIO as StringIO
+from xhtml2pdf import pisa
+from django.template.loader import get_template
+from django.template import Context
+from django.http import HttpResponse
+from cgi import escape
 
 # Create your views here.
 
-def data(request):
-	return render(request, 'locker_manager/data.html')
+def render_to_pdf(template_src, context_dict):
+    template = get_template('locker_manager/template.html')
+    context = Context(context_dict)
+    html  = template.render(context)
+    result = StringIO.StringIO()
+
+    pdf = pisa.pisaDocument(StringIO.StringIO(html.encode("ISO-8859-1")), result)
+    if not pdf.err:
+        return HttpResponse(result.getvalue(), content_type='application/pdf')
+    return HttpResponse('We had some errors<pre>%s</pre>' % escape(html))
+
+def generate_pdf(request):
+	logs = Log.objects.all()
+	return render_to_pdf(
+		'locker_manager/template.html',
+			{
+				'pagesize':'A4',
+				'logs': logs,
+			}
+		)
 
 def lm_login(request):
 	login_form = LoginForm(prefix="lg")
@@ -64,7 +91,7 @@ def register_admin(request):
 			admin = admin_form.save(commit=False)
 			admin.user = user
 			admin.save()
-			return redirect('locker_manager.views.admin_details', pk=admin.pk)
+			return redirect('locker_manager.views.admin_details', matriculation=admin.matriculation)
 		else:
 			messages.error(request, "Error")
 			return render(request, 'locker_manager/register_admin.html',{'admin_form':admin_form, 'user_form':user_form})
@@ -76,7 +103,8 @@ def edit_admin(request, pk):
 	admin_form = AdminForm(prefix="adm")
 	user_form = UserForm(prefix="usr")
 
-	admin = get_object_or_404(Admin, pk=pk)
+	user = get_object_or_404(User, pk=pk)
+	admin = get_object_or_404(Admin, user_id=user.pk)
 	if request.method == 'POST':
 		admin_form = AdminForm(request.POST, prefix="adm", instance=admin)
 		user_form = UserForm(request.POST, prefix="usr", instance=admin.user)
@@ -84,8 +112,11 @@ def edit_admin(request, pk):
 			user = user_form.save()
 			admin = admin_form.save(commit=False)
 			admin.user = user
+			admin.pic = request.FILES['adm-pic']
 			admin.save()
-			return redirect('locker_manager.views.admin_details', pk=admin.pk)
+			#request.user = user
+			request.user.save()
+			return redirect('admin_details', matriculation=admin.matriculation)
 		else:
 			messages.error(request, "Error")
 			return render(request, 'locker_manager/register_admin.html',{'admin_form':admin_form, 'user_form':user_form})
@@ -274,8 +305,24 @@ def consult_log_details(request, matr, room):
 			return HttpResponse(content, content_type='application/json')
 
 def consult_person(request):
+	json_obj = open(os.path.dirname(__file__) + '/../static/data/students.json').read()
+	data = json.loads(json_obj)
+
 	persons = Person.objects.all()
-	return render(request, 'locker_manager/consult_person.html', {'persons':persons})
+	students = []
+	for person in persons:
+		student = Student(matriculation=person.matriculation, name="")
+		for i in data['student']:
+			if i['code'] == str(person.matriculation):
+				student.name = i['name']
+				student.program = i['program']
+		if student.name == "":
+			student.name = "Not found!"
+			student.program = "Not found!"
+
+		students.append(student)
+
+	return render(request, 'locker_manager/consult_person.html', {'students':students})
 
 def register_person(request):
 	person_form = PersonForm(prefix="prs")
@@ -312,8 +359,21 @@ def edit_person(request, matriculation):
 
 def person_details(request, matriculation):
 	person = get_object_or_404(Person, matriculation=matriculation)
-	return render(request, 'locker_manager/person_details.html', {'person':person})
+
+	json_obj = open(os.path.dirname(__file__) + '/../static/data/students.json').read()
+	data = json.loads(json_obj)
+
+	student = Student(matriculation=person.matriculation, name="")
+	for i in data['student']:
+		if i['code'] == str(person.matriculation):
+			student.name = i['name']
+			student.program = i['program']
+	if student.name == "":
+		student.name = "Not found!"
+		student.program = "Not found!"
+
+	return render(request, 'locker_manager/person_details.html', {'student':student})
 
 def remove_person(request, matriculation):
 	Person.objects.get(matriculation=matriculation).delete()
-	return render(request, 'locker_manager/home.html')
+	return HttpResponseRedirect(request.META.get('HTTP_REFERER'))

@@ -30,30 +30,22 @@
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th></th>
-                  <th></th>
+                  <th>Nome</th>
+                  <th>Curso</th>
                   <th>Matricula</th>
-                  <th>Sala</th>
-                  <th>Hora inicial</th>
-                  <th>Hora final</th>
-                  <th>Dias da semana</th>  
+                  <th></th>
+                  <th></th>
                 </tr>
                 </thead>
                 <tbody>
-                {% for  access in accesses %}
+                {% for  student in students %}
                 <tr>
-                  <td><a href={% url 'locker_manager.views.edit_access' pk=access.pk %}><i class="fa fa-pencil"></i></a></td>
-                  <td><a href={% url 'locker_manager.views.remove_access' pk=access.pk %}><i class="fa fa-remove"></i></a></td>
-                  <td>{{access.person.matriculation}}</td>
-                  <td>{{access.locker.room}} </td>
-                  <td>{{access.initial_time}}</td>
-                  <td>{{access.final_time}}</td>
-                  <td>
-                  {% for e in access.day.all %}
-                  {{e}} 
-                  {% endfor %}
-                  </td>
-                </tr>
+                  <td>{{student.name}}</td>
+                  <td>{{student.program}} </td>
+                  <td>{{student.matriculation}}</td>
+                   <td><a href={% url 'locker_manager.views.person_details' matriculation=student.matriculation %}><i class="fa fa-search"></i></a></td>
+                  <td><a href={% url 'locker_manager.views.remove_person' matriculation=student.matriculation %}><i class="fa fa-remove"></i></a></td>
+                  </tr>
                 {% endfor %}
                 </tbody>
               </table>

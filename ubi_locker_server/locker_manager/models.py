@@ -17,7 +17,7 @@ class Person(models.Model):
 
 class Admin(Person):
 	user = models.OneToOneField(User, on_delete=models.CASCADE, default=None, blank=True)
-	pic = models.ImageField(upload_to="static/imgs/admin", default='static/imgs/admin/none.jpg')
+	pic = models.ImageField(upload_to="upload", default='upload/none.jpg')
 
 	@receiver(post_save, sender=settings.AUTH_USER_MODEL)
 	def create_auth_token(sender, instance=None, created=False, **kwargs):
@@ -63,6 +63,9 @@ class Log(models.Model):
 
 	def __str__(self):
 		return self.pk
+
+	def __unicode__(self):
+		return unicode(self.status) 
 
 	def register_success(self, access):
 		self.locker = access.locker

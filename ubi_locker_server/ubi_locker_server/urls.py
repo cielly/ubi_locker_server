@@ -43,6 +43,7 @@ urlpatterns = [
     url(r'^home/', 'locker_manager.views.home', name="home"), 
     
     url(r'^log/consult/$', 'locker_manager.views.consult_log', name="consult_log"),
+    url(r'^log/pdf/$', 'locker_manager.views.generate_pdf', name="generate_pdf"),
     url(r'^log/consult/(?P<matr>[\w|\W]+)/(?P<room>[\w|\W]+)/$', 'locker_manager.views.consult_log_details', name="consult-log-details"),   
 
 

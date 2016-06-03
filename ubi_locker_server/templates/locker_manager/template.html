@@ -1,27 +1,37 @@
-{% extends "locker_manager/base.html" %}
 {% load staticfiles %}
 {% load extras %}
 
-{% block head %}
-<!-- DataTables -->
-  <link rel="stylesheet" href={% static 'plugins/datatables/dataTables.bootstrap.css' %}>
-{% endblock %}
-
-{% block content %}
-<!-- Content Header (Page header) -->
-   <section class="content-header">
-      <h1>
-        Log de acesso
-        <small>Consulta das reqisições de acesso</small>   <a href={% url 'locker_manager.views.generate_pdf' %}><i class="fa fa-file-pdf-o"></i></a> 
-      </h1>
-
-      <!-- Your Page Content Here -->
-
-<section class="content">
-      <div class="row">
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>My Title</title>
+        <style type="text/css">
+            @page {
+                size: {{ pagesize }};
+                margin: 1cm;
+                @frame footer {
+                    -pdf-frame-content: footerContent;
+                    bottom: 0cm;
+                    margin-left: 9cm;
+                    margin-right: 9cm;
+                    height: 1cm;
+                }
+            }
+        </style>
+    </head>
+    {% block content %}
+    <body>
+        <div>
+        <section class="content-header">
+          <h1>
+            Log de acesso
+            <small>Consulta das reqisições de acesso</small>
+          </h1>
+          <section class="content">
+         <div class="row">
         <div class="col-xs-12">
 
-  <div class="box">
+         <div class="box">
             <div class="box-header">
             <!-- /.box-header -->
             <div class="box-body table-responsive no-padding">
@@ -43,7 +53,7 @@
                   <td>{{ log.time | gettime  }}</td>
                   {% if log.status == "authorized" %}
                   <td><span class="label label-success">Approved</span></td>
-                  {% else %}
+                  {% else %}<
                   <td><span class="label label-danger">Denied</span></td>
                   {% endif %}
                 </tr>
@@ -58,10 +68,15 @@
         <!-- /.col -->
       </div>
       <!-- /.row -->
-</section>
-<!-- /.content -->
-
-	{% endblock content %}
+    </section>
+        </div>
+        <div id="footerContent">
+            {%block page_foot%}
+                Page <pdf:pagenumber>
+            {%endblock%}
+        </div>
+    </body>
+    {% endblock content %}
 
 {% block script %}
 
@@ -88,4 +103,4 @@
 </script>
 
 {% endblock %}
-
+</html>

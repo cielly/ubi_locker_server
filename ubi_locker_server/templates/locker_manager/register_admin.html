@@ -27,7 +27,7 @@
         <!-- left column -->
         <div class="col-xs-12">
           <!-- form start -->
-            <form action="" method="POST" role="form" class="form-horizontal">
+            <form action="" method="POST" role="form" class="form-horizontal" enctype="multipart/form-data">
               <div class="box-body">
               {% csrf_token %}
               <div class="form-group">
@@ -48,6 +48,11 @@
                 <div class="form-group">
                   <label for="email">Endereço de email</label>
                    {% render_field user_form.email class="form-control" id='email' placeholder="Digite seu email" %}
+                </div>
+
+                <div class="form-group">
+                  <label for="email">Imagem de perfil</label>
+                   {% render_field admin_form.pic class="form-control" id='pic' placeholder="imagem de perfil" %}
                 </div>
 
                 <div class="form-group">

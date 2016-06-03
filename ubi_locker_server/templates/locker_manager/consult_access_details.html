@@ -30,8 +30,6 @@
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th></th>
-                  <th></th>
                   <th>Matricula</th>
                   <th>Sala</th>
                   <th>Hora inicial</th>
@@ -42,17 +40,19 @@
                 <tbody>
                 {% for  access in accesses %}
                 <tr>
-                  <td><a href={% url 'locker_manager.views.edit_access' pk=access.pk %}><i class="fa fa-pencil"></i></a></td>
-                  <td><a href={% url 'locker_manager.views.remove_access' pk=access.pk %}><i class="fa fa-remove"></i></a></td>
                   <td>{{access.person.matriculation}}</td>
                   <td>{{access.locker.room}} </td>
                   <td>{{access.initial_time}}</td>
                   <td>{{access.final_time}}</td>
                   <td>
                   {% for e in access.day.all %}
-                  {{e}} 
+                  •  {{e}} 
                   {% endfor %}
+                  •  
                   </td>
+                  <td><a href={% url 'locker_manager.views.edit_access' pk=access.pk %}><i class="fa fa-pencil"></i></a></td>
+                  <td><a href={% url 'locker_manager.views.remove_access' pk=access.pk %}><i class="fa fa-remove"></i></a></td>
+
                 </tr>
                 {% endfor %}
                 </tbody>

@@ -25,7 +25,7 @@ class PersonForm(forms.ModelForm):
 
 	class Meta:
 		model = Person
-		fields = ('matriculation', 'locker_password')
+		fields = ('matriculation', 'locker_password', 'RFID')
 
 	def __init__(self, *args, **kwargs):
 		super(PersonForm, self).__init__(*args, **kwargs)
@@ -37,7 +37,7 @@ class AdminForm(forms.ModelForm):
 
 	class Meta:
 		model = Admin
-		fields = ('matriculation','locker_password')
+		fields = ('matriculation','locker_password', 'pic')
 
 
 class LockerForm(forms.ModelForm):

@@ -129,7 +129,8 @@ STATICFILES_FINDERS = (
 
 DEBUG_TOOLBAR_PATCH_SETTINGS = False
 
-MEDIA_ROOT = BASE_DIR
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static/')
+MEDIA_URL   = '/upload/'
 
 REST_FRAMEWORK = {
     # Use Django's standard `django.contrib.auth` permissions,

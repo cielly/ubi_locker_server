@@ -1,24 +1,39 @@
 {% extends "locker_manager/base.html" %}
+{% load extras %}
 
 {% block content %}
 <!-- Content Header (Page header) -->
-    <section class="content-header">
+   <section class="content-header">
       <h1>
-        User Details
-        <small>Preview</small>
+        Detalhes
+        <small>Chave</small>
       </h1>
-      <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Forms</a></li>
-        <li class="active">General Elements</li>
-      </ol>
     </section>
 
-    <!-- Main content -->
-		<h3>{{ access.locker.room}}</h3>
-	    <h4><b>Matricula:</b>{{ access.person.matriculation }}</h4>
+      <!-- Your Page Content Here -->
 
-      <li><a href={% url 'locker_manager.views.edit_access' pk=access.pk %}> Edit</a></li>
-      <li><a href={% url 'locker_manager.views.remove_access' pk=access.pk %}> Remove</a></li>
-
+<section class="content">
+      <div class="row">
+        <div class="col-xs-12">
+        <h3> Editar chave
+        <a href={% url 'locker_manager.views.edit_access' pk=access.pk %}><i class="fa fa-pencil"></i></a> 
+        </h3>
+        <h4><b>Matricula do estudante:</b> {{ access.person.matriculation }} </h4>
+        <h4><b>Sala:</b> {{ access.locker.room }}</h4>
+        <h4><b>Hora inicial:</b> {{ access.initial_time | gettime }}</h4>
+        <h4><b>Hora final:</b> {{ access.final_time | gettime }}</h4>      
+        <h4><b>Dias da semana?</b>
+                  {% for e in access.day.all %}
+                  •  {{e}} 
+                  {% endfor %}
+                   • 
+                  </td>     
+        </div>
+  <!-- /.col -->
+      </div>
+      <!-- /.row -->
+    </section>
+    <!-- /.content -->
 	{% endblock content %}
+
+

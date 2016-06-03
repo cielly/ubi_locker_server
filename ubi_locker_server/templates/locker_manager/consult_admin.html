@@ -30,17 +30,17 @@
               <table id="example1" class="table table-bordered table-striped">
                 <thead>
                 <tr>
-                  <th></th>
                   <th>Nome</th>
                   <th>Matricula</th> 
+                  <th></th>
                 </tr>
                 </thead>
                 <tbody>
                 {% for  admin in admins %}
                 <tr>
-                  <td><a href={% url 'locker_manager.views.admin_details' matriculation=admin.matriculation %}><i class="fa fa-search"></i></a></td>
                   <td>{{admin.user.first_name}} {{admin.user.last_name}}</td>                    
                   <td>{{admin.matriculation}}</td>
+                  <td><a href={% url 'locker_manager.views.admin_details' matriculation=admin.matriculation %}><i class="fa fa-search"></i></a></td>
                 </tr>
                 {% endfor %}
                 </tbody>
