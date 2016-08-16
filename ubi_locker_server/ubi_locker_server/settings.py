@@ -44,6 +44,8 @@ INSTALLED_APPS = (
     'rest_framework.authtoken',
     'rest_framework_swagger',
     'gunicorn',
+    'django_extensions',
+    'django-dia',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -164,6 +166,10 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     'django.core.context_processors.auth',
 )
 
+GRAPH_MODELS = {
+  'all_applications': True,
+  'group_models': True,
+}
 
 DATABASES['default'] = dj_database_url.config()
 
